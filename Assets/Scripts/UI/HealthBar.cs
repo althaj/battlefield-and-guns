@@ -17,11 +17,22 @@ namespace PSG.BattlefieldAndGuns.UI
         #region private variables
         private Slider healthBar;
         private Enemy enemy;
+        private Transform cameraTransform;
         #endregion
 
         #region properties
 
         #endregion
+
+        private void Start()
+        {
+            cameraTransform = Camera.main.transform;
+        }
+
+        private void LateUpdate()
+        {
+            transform.rotation = cameraTransform.rotation;
+        }
 
         private void OnEnable()
         {
