@@ -19,6 +19,8 @@ namespace PSG.BattlefieldAndGuns.Core
         [SerializeField]
         public int Level { get => level; }
         public float Range { get => towerData.GetRange(level); }
+        public abstract Enemy[] Targets { get; }
+        public abstract Enemy Target { get; }
         #endregion
 
         private void Awake()

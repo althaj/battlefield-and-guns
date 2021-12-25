@@ -8,7 +8,8 @@ namespace PSG.BattlefieldAndGuns.Effects
     public class WeaponLineRenderer : MonoBehaviour
     {
         #region serialized variables
-
+        [SerializeField]
+        private Transform weaponEnd;
         #endregion
 
         #region private variables
@@ -19,6 +20,12 @@ namespace PSG.BattlefieldAndGuns.Effects
         #region properties
 
         #endregion
+
+        private void Start()
+        {
+            if (weaponEnd == null)
+                weaponEnd = transform;
+        }
 
         private void OnEnable()
         {
@@ -41,7 +48,7 @@ namespace PSG.BattlefieldAndGuns.Effects
         {
             if (lineRenderer != null)
             {
-                lineRenderer.SetPosition(0, transform.position);
+                lineRenderer.SetPosition(0, weaponEnd.position);
                 lineRenderer.SetPosition(1, e[0].transform.position);
             }
         }

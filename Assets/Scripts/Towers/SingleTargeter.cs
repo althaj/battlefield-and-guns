@@ -12,6 +12,11 @@ namespace PSG.BattlefieldAndGuns.Towers
         private Enemy target;
         private EnemyManager enemyManager;
 
+        #region properties
+        public override Enemy[] Targets => target != null ? new Enemy[] { target } : new Enemy[0];
+        public override Enemy Target => target;
+        #endregion
+
         private void Start()
         {
             enemyManager = FindObjectOfType<EnemyManager>();
