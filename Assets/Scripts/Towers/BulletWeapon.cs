@@ -7,23 +7,17 @@ namespace PSG.BattlefieldAndGuns.Towers
 {
     public class BulletWeapon : Weapon
     {
-        private void Update()
+        /// <summary>
+        /// Does the tower have valid targets?
+        /// </summary>
+        /// <returns></returns>
+        public override bool HasValidTargets()
         {
-            if(coolDown <= 0)
-            {
-                targets = targeter.GetTargets();
-                if (targets.Length > 0)
-                    targets = new Enemy[] { targets[0] };
-                else targets = new Enemy[0];
-
-                if (targets.Length > 0)
-                {
-                    Fire();
-                }
-            } else
-            {
-                coolDown -= Time.deltaTime;
-            }
+            targets = targeter.GetTargets();
+            if (targets.Length > 0)
+                targets = new Enemy[] { targets[0] };
+            else targets = new Enemy[0];
+            return targets.Length > 0;
         }
 
         /// <summary>
@@ -34,7 +28,6 @@ namespace PSG.BattlefieldAndGuns.Towers
             if(targets.Length > 0)
             {
                 base.Fire();
-                coolDown = FireRate;
                 targets[0].DealDamage(Damage);
             }
         }

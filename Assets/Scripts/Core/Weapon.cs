@@ -34,11 +34,29 @@ namespace PSG.BattlefieldAndGuns.Core
             targeter = GetComponent<Targeter>();
         }
 
+        private void Update()
+        {
+            if (coolDown <= 0)
+            {
+                if (HasValidTargets())
+                {
+                    Fire();
+                }
+            }
+            else
+            {
+                coolDown -= Time.deltaTime;
+            }
+        }
+
+        public abstract bool HasValidTargets();
+
         /// <summary>
         /// Fire the weapon.
         /// </summary>
         public virtual void Fire()
         {
+            coolDown = FireRate;
             OnFire?.Invoke(this, targets);
         }
 
