@@ -161,5 +161,24 @@ namespace PSG.BattlefieldAndGuns.Managers
             if (spawnedEnemies.Count == 0)
                 gameUI.ShowBuffPanel(currentWave % 5 == 0);
         }
+
+        /// <summary>
+        /// Get the closest enemy to a position.
+        /// </summary>
+        /// <param name="position">Position to compare the distance with.</param>
+        /// <param name="range">Maximum distance between the enemy and the object.</param>
+        /// <returns></returns>
+        public Enemy GetClosestEnemy(Vector3 position, float range)
+        {
+            if (spawnedEnemies == null || spawnedEnemies.Count == 0)
+                return null;
+
+            // Order the enemies by distance and get the first one if it's within the range.
+            IOrderedEnumerable<Enemy> orderedEnemies = spawnedEnemies.OrderBy(x => Vector3.Distance(position, x.transform.position));
+            if (Vector3.Distance(position, orderedEnemies.First().transform.position) <= range)
+                return orderedEnemies.First();
+            else
+                return null;
+        }
     } 
 }

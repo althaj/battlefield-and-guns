@@ -3,21 +3,43 @@ using System.Collections.Generic;
 using UnityEngine;
 using PSG.BattlefieldAndGuns.Core;
 using System.Linq;
+using PSG.BattlefieldAndGuns.Managers;
 
 namespace PSG.BattlefieldAndGuns.Towers
 {
     public class SingleTargeter : Targeter
     {
+        private Enemy target;
+        private EnemyManager enemyManager;
+
+        private void Start()
+        {
+            enemyManager = FindObjectOfType<EnemyManager>();
+        }
+
         public override Enemy[] GetTargets()
         {
-            Enemy[] enemies = FindObjectsOfType<Enemy>().OrderBy(x => Vector3.Distance(transform.position, x.transform.position)).ToArray();
-
-            for (int i = 0; i < enemies.Length; i++)
+            // Check old target distance.
+            if(target != null)
             {
-                if (Vector3.Distance(transform.position, enemies[i].transform.position) <= Range)
-                    return new Enemy[] { enemies[i] };
+                if (Vector3.Distance(transform.position, target.transform.position) > Range)
+                    target = null;
             }
-            return new Enemy[0];
+
+            // Get a new target.2
+            if(target == null)
+            {
+                target = enemyManager.GetClosestEnemy(transform.position, Range);
+            }
+
+            // Return the target or empty.
+            if (target != null)
+            {
+                return new Enemy[] { target };
+            } else
+            {
+                return new Enemy[0];
+            }
         }
     }
 }
