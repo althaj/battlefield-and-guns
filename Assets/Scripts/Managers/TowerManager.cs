@@ -164,6 +164,12 @@ namespace PSG.BattlefieldAndGuns.Managers
             StopPlacing();
         }
 
+        public void UpgradeTower(Tower tower)
+        {
+            BuildTower(tower.nextLevelPrefab, tower.transform.position);
+            Destroy(tower.gameObject);
+        }
+
         /// <summary>
         /// Build a new tower.
         /// </summary>
@@ -211,7 +217,7 @@ namespace PSG.BattlefieldAndGuns.Managers
         {
             isBuilding = false;
             currentTowerIndex = -1;
-            currentPlaceholder.SetActive(false);
+            currentPlaceholder?.SetActive(false);
             currentPlaceholder = null;
         }
     } 

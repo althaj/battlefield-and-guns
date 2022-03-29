@@ -26,11 +26,16 @@ namespace PSG.BattlefieldAndGuns.UI
         [Header("Prefabs")]
         [SerializeField]
         private GameObject buffCardPrefab;
+
+        [Header("Background")]
+        [SerializeField]
+        private GameObject backgroundPanel;
         #endregion
 
         #region private variables
         private TowerManager towerManager;
         private BuffManager buffManager;
+        private UpgradePanel upgradePanel;
         #endregion
 
         #region properties
@@ -45,8 +50,10 @@ namespace PSG.BattlefieldAndGuns.UI
             TowerManager_OnMoneyChanged(this, towerManager.Money);
 
             buffManager = FindObjectOfType<BuffManager>();
+            upgradePanel = FindObjectOfType<UpgradePanel>();
 
             buffPanel.SetActive(false);
+            backgroundPanel.SetActive(false);
         }
 
         private void TowerManager_OnMoneyChanged(object sender, int e)
@@ -90,6 +97,23 @@ namespace PSG.BattlefieldAndGuns.UI
         public void HideBuffPanel()
         {
             buffPanel.SetActive(false);
+        }
+
+        public void ShowUpgradePanel(Tower tower, TowerData towerData)
+        {
+            upgradePanel.Show(tower, towerData);
+            backgroundPanel.SetActive(true);
+        }
+
+        public void HideUpgradePanel()
+        {
+            upgradePanel.Hide();
+            backgroundPanel.SetActive(false);
+        }
+
+        public void BackgroundPanel_OnClick()
+        {
+            HideUpgradePanel();
         }
     }
 

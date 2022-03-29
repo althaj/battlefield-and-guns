@@ -1,3 +1,5 @@
+using PSG.BattlefieldAndGuns.Managers;
+using PSG.BattlefieldAndGuns.UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -58,9 +60,14 @@ namespace PSG.BattlefieldAndGuns.Core
             }
         }
 
+        private void OnMouseUp()
+        {
+            FindObjectOfType<GameUI>().ShowUpgradePanel(this, towerData);
+        }
+
         public void LevelUp()
         {
-            // Swap for next level tower.
+            FindObjectOfType<TowerManager>().UpgradeTower(this);
         }
 
         /// <summary>
