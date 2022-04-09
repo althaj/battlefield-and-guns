@@ -6,6 +6,29 @@ namespace PSG.BattlefieldAndGuns.Towers
 {
     public class TowerSpace : MonoBehaviour
     {
-        public bool IsFree { get; set; } = true;
-    } 
+        private Animator animator;
+
+        private void Start()
+        {
+            animator = GetComponent<Animator>();
+        }
+
+        private bool isFree = true;
+        public bool IsFree
+        {
+            get => isFree;
+            set
+            {
+                isFree = value;
+                if(!isFree)
+                    UseSpace();
+            }
+        }
+
+        private void UseSpace()
+        {
+            if (animator != null)
+                animator.SetTrigger("Open");
+        }
+    }
 }
