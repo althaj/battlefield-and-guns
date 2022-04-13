@@ -21,6 +21,8 @@ namespace PSG.BattlefieldAndGuns.Core
         private float currentBuildTime;
         private float buildStartHeight;
         private float buildEndHeight;
+
+        private Animator animator;
         #endregion
 
         #region properties
@@ -42,6 +44,8 @@ namespace PSG.BattlefieldAndGuns.Core
 
             buildEndHeight = transform.position.y;
             buildStartHeight = buildEndHeight - 3;
+
+            animator = GetComponent<Animator>();
             BeginBuilding();
         }
 
@@ -51,7 +55,7 @@ namespace PSG.BattlefieldAndGuns.Core
             {
                 currentBuildTime -= Time.deltaTime;
                 float delta = 1 - currentBuildTime / BuildTime;
-                transform.position = new Vector3(transform.position.x, Mathf.Lerp(buildStartHeight, buildEndHeight, delta), transform.position.z);
+                //transform.position = new Vector3(transform.position.x, Mathf.Lerp(buildStartHeight, buildEndHeight, delta), transform.position.z);
 
                 if(currentBuildTime <= 0)
                 {
@@ -80,6 +84,9 @@ namespace PSG.BattlefieldAndGuns.Core
             {
                 Weapons[i].enabled = false;
             }
+
+            if (animator != null)
+                animator.SetTrigger("Build");
         }
 
         /// <summary>
@@ -87,7 +94,7 @@ namespace PSG.BattlefieldAndGuns.Core
         /// </summary>
         private void EndBuilding()
         {
-            transform.position = new Vector3(transform.position.x, buildEndHeight, transform.position.z);
+            //transform.position = new Vector3(transform.position.x, buildEndHeight, transform.position.z);
             for (int i = 0; i < Weapons.Length; i++)
             {
                 Weapons[i].enabled = true;

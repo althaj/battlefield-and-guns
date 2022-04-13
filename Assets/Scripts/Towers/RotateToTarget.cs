@@ -13,6 +13,9 @@ namespace PSG.BattlefieldAndGuns.Towers
         [Range(0, 10)]
         [SerializeField]
         private float rotationSpeed;
+
+        [SerializeField]
+        private Vector3 offset;
         
         // Start is called before the first frame update
         void Start()
@@ -21,16 +24,16 @@ namespace PSG.BattlefieldAndGuns.Towers
         }
 
         // Update is called once per frame
-        void Update()
+        void LateUpdate()
         {
             if(targeter != null)
             {
                 Enemy target = targeter.Target;
                 if(target != null)
                 {
-                    Quaternion lookOnLook = Quaternion.LookRotation(target.transform.position - transform.position);
+                    Quaternion lookOnAngle = Quaternion.LookRotation(target.transform.position - transform.position);
 
-                    transform.rotation = Quaternion.Slerp(transform.rotation, lookOnLook, Time.deltaTime * rotationSpeed);
+                    transform.rotation = lookOnAngle * Quaternion.Euler(offset);
                 }
             }
         }
