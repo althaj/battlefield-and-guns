@@ -1,4 +1,5 @@
 using PSG.BattlefieldAndGuns.Core;
+using PSG.BattlefieldAndGuns.Utility;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,7 +30,7 @@ namespace PSG.BattlefieldAndGuns.Effects
 
         private void OnEnable()
         {
-            weapon = GetComponent<Weapon>();
+            weapon = this.GetComponentInParents<Weapon>();
             weapon.OnFire += Weapon_OnFire;
             lineRenderer = GetComponent<LineRenderer>();
         }
