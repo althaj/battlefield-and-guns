@@ -15125,8 +15125,8 @@ MonoBehaviour:
   boundsXMax: 10
   boundsZMin: -10
   boundsZMax: 10
-  cameraPanSpeed: 5
-  distanceFromEdge: 30
+  cameraPanSpeed: 3
+  distanceFromEdge: 15
   minFovScale: 0.3
   maxFovScale: 1
   fovChangeSpeed: 75

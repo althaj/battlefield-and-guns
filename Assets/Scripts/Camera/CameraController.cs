@@ -58,6 +58,8 @@ namespace PSG.BattlefieldAndGuns.PSGCamera
 
         Vector3 originalPosition;
 
+        Vector3? previousMousePosition;
+
         #endregion
 
         #region Event handlers
@@ -96,36 +98,47 @@ namespace PSG.BattlefieldAndGuns.PSGCamera
         private void SetCameraMovement()
         {
             cameraMovement = Vector2.zero;
+            var mousePosition = Input.mousePosition;
 
-            // Check if we are out of bounds
-            if (transform.position.x < currentBoundsXMin + originalPosition.x)
-                cameraMovement.x = -transform.position.x + currentBoundsXMin + originalPosition.x;
-            else if (transform.position.x > currentBoundsXMax + originalPosition.x)
-                cameraMovement.x = -transform.position.x + currentBoundsXMax + originalPosition.x;
+            // Save mouse drag position
+            if (Input.GetMouseButtonDown(2))
+                previousMousePosition = mousePosition;
 
-            if (transform.position.z < currentBoundsZMin + originalPosition.z)
-                cameraMovement.y = -transform.position.z + currentBoundsZMin + originalPosition.z;
-            else if (transform.position.z > currentBoundsZMax + originalPosition.z)
-                cameraMovement.y = -transform.position.z + currentBoundsZMax + originalPosition.z;
-
-            // Only pan by mouse if we are inside the bounds
-            if (cameraMovement == Vector2.zero)
+            if (Input.GetMouseButtonUp(2))
             {
-                var mousePosition = Input.mousePosition;
+                previousMousePosition = null;
+            }
 
-                if (mousePosition.x <= distanceFromEdge && transform.position.x > currentBoundsXMin + originalPosition.x)
+            // Check mouse pan
+            if (previousMousePosition != null)
+            {
+                cameraMovement = (previousMousePosition.Value - mousePosition).normalized * cameraPanSpeed * 2;
+                previousMousePosition = mousePosition;
+            }
+            // Check screen edges
+            else
+            {
+                if (mousePosition.x <= distanceFromEdge)
                     cameraMovement.x = -cameraPanSpeed;
-                else if (mousePosition.x >= screenSize.x - distanceFromEdge && transform.position.x < currentBoundsXMax + originalPosition.x)
+                else if (mousePosition.x >= screenSize.x - distanceFromEdge)
                     cameraMovement.x = cameraPanSpeed;
 
-                if (mousePosition.y <= distanceFromEdge - distanceFromEdge && transform.position.z > currentBoundsZMin + originalPosition.z)
+                if (mousePosition.y <= distanceFromEdge - distanceFromEdge)
                     cameraMovement.y = -cameraPanSpeed;
-                else if (mousePosition.y >= screenSize.y - distanceFromEdge && transform.position.z < currentBoundsZMax + originalPosition.z)
+                else if (mousePosition.y >= screenSize.y - distanceFromEdge)
                     cameraMovement.y = cameraPanSpeed;
-            } else
-            {
-                Debug.Log("Out of bounds");
             }
+
+            // Check if we are out of bounds
+            if (transform.position.x < currentBoundsXMin + originalPosition.x && cameraMovement.x < 0)
+                cameraMovement.x = 0;
+            else if (transform.position.x > currentBoundsXMax + originalPosition.x && cameraMovement.x > 0)
+                cameraMovement.x = 0;
+
+            if (transform.position.z < currentBoundsZMin + originalPosition.z && cameraMovement.y < 0)
+                cameraMovement.y = 0;
+            else if (transform.position.z > currentBoundsZMax + originalPosition.z && cameraMovement.y > 0)
+                cameraMovement.y = 0;
 
             if (cameraMovement != Vector2.zero)
                 OnCameraPan?.Invoke(this, null);
@@ -145,7 +158,20 @@ namespace PSG.BattlefieldAndGuns.PSGCamera
             currentBoundsZMax = boundsZMax - boundsZMax * currentFovScale;
 
             if (previousFovScale != currentFovScale)
+            {
+                // Check if we are out of bounds
+                if (transform.position.x < currentBoundsXMin + originalPosition.x)
+                    cameraMovement.x = -transform.position.x + currentBoundsXMin + originalPosition.x;
+                else if (transform.position.x > currentBoundsXMax + originalPosition.x)
+                    cameraMovement.x = -transform.position.x + currentBoundsXMax + originalPosition.x;
+
+                if (transform.position.z < currentBoundsZMin + originalPosition.z)
+                    cameraMovement.y = -transform.position.z + currentBoundsZMin + originalPosition.z;
+                else if (transform.position.z > currentBoundsZMax + originalPosition.z)
+                    cameraMovement.y = -transform.position.z + currentBoundsZMax + originalPosition.z;
+
                 OnCameraZoom?.Invoke(this, null);
+            }
         }
 
         #endregion
