@@ -7,7 +7,7 @@ namespace PSG.BattlefieldAndGuns.Map
     public class MapPiece : MonoBehaviour
     {
         #region serialized variables
-        [SerializeField] private MapPieceType pieceType;
+        [field: SerializeField] public MapPieceType PieceType { get; private set; }
         #endregion
 
         private void OnDrawGizmos()
@@ -15,7 +15,7 @@ namespace PSG.BattlefieldAndGuns.Map
             Gizmos.color = Color.yellow;
             Gizmos.matrix = Matrix4x4.TRS(transform.position, transform.rotation, transform.lossyScale);
 
-            switch (pieceType)
+            switch (PieceType)
             {
                 case MapPieceType.Ground:
                     Gizmos.DrawWireCube(transform.up * 0.5f, Vector3.one);

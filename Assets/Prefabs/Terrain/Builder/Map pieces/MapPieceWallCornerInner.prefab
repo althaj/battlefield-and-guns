@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8652538435684377244}
   - component: {fileID: 8652538435684377245}
   m_Layer: 0
-  m_Name: MapPieceWallCornerOuter 1
+  m_Name: MapPieceWallCornerInner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,4 +43,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae3a3d298612e194283ee0d6feff0b27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pieceType: 6
+  <PieceType>k__BackingField: 6
