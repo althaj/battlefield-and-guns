@@ -27220,7 +27220,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1669374335
 Transform:
   m_ObjectHideFlags: 0
@@ -34337,9 +34337,7 @@ MonoBehaviour:
   - {fileID: 5908190701631355435, guid: 23d9e76c57c9712409933ec87588b419, type: 3}
   groundPrefabs:
   - {fileID: 4039384714876559014, guid: 2339981c66b3023408c729bc8f624fe0, type: 3}
-  towerSpacePrefab: {fileID: 4633478456400493051, guid: f66706b80462c8a4ab2a5decdf4a6a91, type: 3}
-  mapChunks:
-  - {fileID: 2789840681771891251, guid: 5eb46afd81f1e6d44b2ded8261142cd7, type: 3}
+  towerSpacePrefab: {fileID: 0}
 --- !u!4 &2057704267
 Transform:
   m_ObjectHideFlags: 0

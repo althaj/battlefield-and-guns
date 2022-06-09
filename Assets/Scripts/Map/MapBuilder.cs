@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using PSG.RNG;
 using PSG.BattlefieldAndGuns.Utility;
+using System.Linq;
 
 namespace PSG.BattlefieldAndGuns.Map
 {
@@ -18,12 +19,24 @@ namespace PSG.BattlefieldAndGuns.Map
         [SerializeField] private GameObject[] groundPrefabs;
 
         [SerializeField] private GameObject towerSpacePrefab;
-
-        [SerializeField] private GameObject[] mapChunks;
-
+        
         #endregion
 
         #region private variables
+
+        private MapSegment[] segments;
+
+        private enum TilePrefabType
+        {
+            RoadStraight,
+            RoadCorner,
+            WallStraight,
+            WallCornerOuter,
+            WallCornerInner,
+            Ground
+        }
+
+        private float tileSize = 1f;
 
         #endregion
 
@@ -34,75 +47,155 @@ namespace PSG.BattlefieldAndGuns.Map
         // Start is called before the first frame update
         private void Start()
         {
+            segments = Resources.LoadAll("MapSegments", typeof(MapSegment)).Cast<MapSegment>().ToArray();
+
             for (int i = 0; i < 4; i++)
             {
-                GameObject mapChunk = Instantiate(RNGManager.Manager[Constants.MAP_BUILDER_RNG_TITLE].NextElement(mapChunks));
+                MapSegment segment = RNGManager.Manager[Constants.MAP_BUILDER_RNG_TITLE].NextElement(segments);
+                GameObject mapChunk = new GameObject("Map chunk");
+
+                GameObject instance = null;
+
+                for (int x = 0; x < MapSegment.MAP_SIZE; x++)
+                {
+                    for (int y = 0; y < MapSegment.MAP_SIZE; y++)
+                    {
+                        switch (segment.Get(x, y))
+                        {
+                            case MapTileType.Ground:
+                                CreateTile(TilePrefabType.Ground, x, y, 0, mapChunk);
+                                break;
+                            case MapTileType.Road:
+                                CreateRoad(segment, x, y, mapChunk);
+                                break;
+                            case MapTileType.GroundWithTowerSpace:
+                                break;
+                            default:
+                                break;
+                        }
+
+                        instance?.transform.SetParent(mapChunk.transform);
+                    }
+                }
 
                 switch (i)
                 {
                     case 0:
-                        mapChunk.transform.position = new Vector3(-5, 0, -5);
+                        mapChunk.transform.position = new Vector3(-8.5f, 0, 0.5f);
                         break;
                     case 1:
-                        mapChunk.transform.position = new Vector3(5, 0, 5);
+                        mapChunk.transform.position = new Vector3(8.5f, 0, 0.5f);
                         mapChunk.transform.Rotate(transform.up, -90);
                         break;
                     case 2:
-                        mapChunk.transform.position = new Vector3(5, 0, -5);
-                        mapChunk.transform.Rotate(transform.up, -180);
-                        break;
-                    case 3:
-                        mapChunk.transform.position = new Vector3(-5, 0, -5);
+                        mapChunk.transform.position = new Vector3(0.5f, 0, -0.5f);
                         mapChunk.transform.Rotate(transform.up, 90);
                         break;
+                    case 3:
+                        mapChunk.transform.position = new Vector3(-0.5f, 0, -0.5f);
+                        mapChunk.transform.Rotate(transform.up, 180);
+                        break;
                 }
-
-                MapPiece[] mapPieces = mapChunk.GetComponentsInChildren<MapPiece>();
-                List<MapPiece> towerSpaceMapPieces = new List<MapPiece>();
-
-
-                foreach (MapPiece piece in mapPieces)
-                {
-                    GameObject prefab;
-                    Vector3 pieceRotation = piece.transform.eulerAngles;
-                    Quaternion rotation = Quaternion.Euler(pieceRotation.x + 90, pieceRotation.y, pieceRotation.z);
-
-                    switch (piece.PieceType)
-                    {
-                        case MapPieceType.Ground:
-                        default:
-                            prefab = RNGManager.Manager[Constants.MAP_BUILDER_RNG_TITLE].NextElement(groundPrefabs);
-                            break;
-                        case MapPieceType.GroundWithTowerSpace:
-                            prefab = RNGManager.Manager[Constants.MAP_BUILDER_RNG_TITLE].NextElement(groundPrefabs);
-                            towerSpaceMapPieces.Add(piece);
-                            break;
-                        case MapPieceType.RoadStraight:
-                            prefab = RNGManager.Manager[Constants.MAP_BUILDER_RNG_TITLE].NextElement(roadStraightPrefabs);
-                            rotation = Quaternion.Euler(pieceRotation.x + 90, pieceRotation.y, RNGManager.Manager[Constants.MAP_BUILDER_RNG_TITLE].NextBool() ? pieceRotation.z + 90 : pieceRotation.z - 90);
-                            break;
-                        case MapPieceType.RoadCorner:
-                            prefab = RNGManager.Manager[Constants.MAP_BUILDER_RNG_TITLE].NextElement(roadCornerPrefabs);
-                            break;
-                        case MapPieceType.WallStraight:
-                            prefab = RNGManager.Manager[Constants.MAP_BUILDER_RNG_TITLE].NextElement(wallStraightPrefabs);
-                            rotation = Quaternion.Euler(pieceRotation.x + 90, pieceRotation.y, RNGManager.Manager[Constants.MAP_BUILDER_RNG_TITLE].NextBool() ? pieceRotation.z + 90 : pieceRotation.z - 90);
-                            break;
-                        case MapPieceType.WallCornerOuter:
-                            prefab = RNGManager.Manager[Constants.MAP_BUILDER_RNG_TITLE].NextElement(wallCornerOuterPrefabs);
-                            break;
-                        case MapPieceType.WallCornerInner:
-                            prefab = RNGManager.Manager[Constants.MAP_BUILDER_RNG_TITLE].NextElement(wallCornerInnerPrefabs);
-                            break;
-                    }
-
-                    GameObject tile = Instantiate(prefab, piece.transform.position, rotation);
-
-                    tile.transform.parent = transform;
-                }
-
-                Destroy(mapChunk);
             }
+        }
+
+        private void CreateTile(TilePrefabType prefabType, int x, int y, float rotation, GameObject parent)
+        {
+            switch (prefabType)
+            {
+                case TilePrefabType.RoadStraight:
+                    InstantiateTile(RNGManager.Manager[Constants.MAP_BUILDER_RNG_TITLE].NextElement(roadStraightPrefabs), x, y, rotation, parent);
+                    break;
+                case TilePrefabType.RoadCorner:
+                    InstantiateTile(RNGManager.Manager[Constants.MAP_BUILDER_RNG_TITLE].NextElement(roadCornerPrefabs), x, y, rotation, parent);
+                    break;
+                case TilePrefabType.WallStraight:
+                    InstantiateTile(RNGManager.Manager[Constants.MAP_BUILDER_RNG_TITLE].NextElement(wallStraightPrefabs), x, y, rotation, parent);
+                    break;
+                case TilePrefabType.WallCornerOuter:
+                    InstantiateTile(RNGManager.Manager[Constants.MAP_BUILDER_RNG_TITLE].NextElement(wallCornerOuterPrefabs), x, y, rotation, parent);
+                    break;
+                case TilePrefabType.WallCornerInner:
+                    InstantiateTile(RNGManager.Manager[Constants.MAP_BUILDER_RNG_TITLE].NextElement(wallCornerInnerPrefabs), x, y, rotation, parent);
+                    break;
+                case TilePrefabType.Ground:
+                    InstantiateTile(RNGManager.Manager[Constants.MAP_BUILDER_RNG_TITLE].NextElement(groundPrefabs), x, y, rotation, parent);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void InstantiateTile(GameObject prefab, int x, int y, float rotation, GameObject parent)
+        {
+            GameObject go = Instantiate(prefab, new Vector3(x * tileSize, 0, y * tileSize), Quaternion.Euler(90, rotation, 0));
+            go.transform.SetParent(parent.transform);
+        }
+
+        private void CreateRoad(MapSegment segment, int x, int y, GameObject parent)
+        {
+            if (x == 0 || x == MapSegment.MAP_SIZE)
+            {
+                CreateRoadStraight(x, y, 0, parent);
+                return;
+            }
+
+            if (y == 0 || y == MapSegment.MAP_SIZE)
+            {
+                CreateRoadStraight(x, y, 90, parent);
+                return;
+            }
+
+            if(segment.Get(x - 1, y) == MapTileType.Road && segment.Get(x + 1, y) == MapTileType.Road)
+            {
+                CreateRoadStraight(x, y, 0, parent);
+                return;
+            }
+
+            if (segment.Get(x, y - 1) == MapTileType.Road && segment.Get(x, y + 1) == MapTileType.Road)
+            {
+                CreateRoadStraight(x, y, 90, parent);
+                return;
+            }
+
+            if (segment.Get(x, y + 1) == MapTileType.Road && segment.Get(x - 1, y) == MapTileType.Road)
+            {
+                CreateRoadCorner(x, y, 180, parent);
+                return;
+            }
+
+            if (segment.Get(x, y - 1) == MapTileType.Road && segment.Get(x - 1, y) == MapTileType.Road)
+            {
+                CreateRoadCorner(x, y, 90, parent);
+                return;
+            }
+
+            if (segment.Get(x, y - 1) == MapTileType.Road && segment.Get(x + 1, y) == MapTileType.Road)
+            {
+                CreateRoadCorner(x, y, 0, parent);
+                return;
+            }
+
+            if (segment.Get(x, y + 1) == MapTileType.Road && segment.Get(x + 1, y) == MapTileType.Road)
+            {
+                CreateRoadCorner(x, y, 270, parent);
+                return;
+            }
+
+        }
+
+        private void CreateRoadStraight(int x, int y, float rotation, GameObject parent)
+        {
+            CreateTile(TilePrefabType.RoadStraight, x, y, rotation, parent);
+            CreateTile(TilePrefabType.WallStraight, x, y, rotation, parent);
+            CreateTile(TilePrefabType.WallStraight, x, y, rotation + 180, parent);
+        }
+
+        private void CreateRoadCorner(int x, int y, float rotation, GameObject parent)
+        {
+            CreateTile(TilePrefabType.RoadCorner, x, y, rotation, parent);
+            CreateTile(TilePrefabType.WallCornerOuter, x, y, rotation, parent);
+            CreateTile(TilePrefabType.WallCornerInner, x, y, rotation + 180, parent);
         }
     }
 }

@@ -5,38 +5,51 @@ using UnityEngine;
 
 namespace PSG.BattlefieldAndGuns.Map
 {
+    [Serializable]
     public enum MapTileType
     {
-        Ground,
-        Road,
-        GroundWithTowerSpace
+        Ground = 0,
+        Road = 1,
+        GroundWithTowerSpace = 2
     }
 
     [CreateAssetMenu(fileName = "MapSegment", menuName = "PSG/Create Map Segment")]
     public class MapSegment : ScriptableObject
     {
-        public MapTileType[,] Tiles;
-
-        public readonly int MAP_SIZE = 8;
-
-        public bool IsNew
+        [SerializeField]
+        private MapTileType[] tiles;
+        public MapTileType[] Tiles
         {
-            get => Tiles == null || Tiles.GetLength(0) != MAP_SIZE || Tiles.GetLength(1) != MAP_SIZE;
+            get
+            {
+                if (IsNew())
+                    InitializeTiles();
+
+                return tiles;
+            }
+            private set => tiles = value;
+        }
+
+        public static readonly int MAP_SIZE = 9;
+
+        public bool IsNew()
+        {
+            return tiles == null || tiles.Length != MAP_SIZE * MAP_SIZE;
         }
 
         public void InitializeTiles()
         {
-            Tiles = new MapTileType[MAP_SIZE, MAP_SIZE];
+            tiles = new MapTileType[MAP_SIZE * MAP_SIZE];
 
-            Tiles[0, 4] = MapTileType.Road;
-            Tiles[4, 0] = MapTileType.Road;
+            tiles[4] = MapTileType.Road;
+            tiles[4 * MAP_SIZE] = MapTileType.Road;
         }
 
         public Color GetColor(int x, int y)
         {
             ValidateIndex(x, y);
 
-            switch (Tiles[x, y])
+            switch (Get(x, y))
             {
                 case MapTileType.Ground:
                     return Color.grey;
@@ -45,7 +58,7 @@ namespace PSG.BattlefieldAndGuns.Map
                 case MapTileType.GroundWithTowerSpace:
                     return Color.green;
                 default:
-                    throw new InvalidOperationException($"Invalid enum value. Enum: {nameof(MapTileType)}, value: {Tiles[x, y]}.");
+                    throw new InvalidOperationException($"Invalid enum value. Enum: {nameof(MapTileType)}, value: {Tiles[x * MAP_SIZE + y]}.");
             }
         }
 
@@ -53,19 +66,19 @@ namespace PSG.BattlefieldAndGuns.Map
         {
             ValidateIndex(x, y);
 
-            switch (Tiles[x, y])
+            switch (Get(x, y))
             {
                 case MapTileType.Ground:
-                    Tiles[x, y] = MapTileType.Road;
+                    Tiles[x * MAP_SIZE + y] = MapTileType.Road;
                     break;
                 case MapTileType.Road:
-                    Tiles[x, y] = MapTileType.GroundWithTowerSpace;
+                    Tiles[x * MAP_SIZE + y] = MapTileType.GroundWithTowerSpace;
                     break;
                 case MapTileType.GroundWithTowerSpace:
-                    Tiles[x, y] = MapTileType.Ground;
+                    Tiles[x * MAP_SIZE + y] = MapTileType.Ground;
                     break;
                 default:
-                    throw new InvalidOperationException($"Invalid enum value. Enum: {nameof(MapTileType)}, value: {Tiles[x, y]}.");
+                    throw new InvalidOperationException($"Invalid enum value. Enum: {nameof(MapTileType)}, value: {Tiles[x * MAP_SIZE + y]}.");
             }
         }
 
@@ -82,7 +95,7 @@ namespace PSG.BattlefieldAndGuns.Map
 
             string result = "";
 
-            switch (Tiles[x, y])
+            switch (Get(x, y))
             {
                 case MapTileType.Ground:
                     result += "Ground";
@@ -94,7 +107,7 @@ namespace PSG.BattlefieldAndGuns.Map
                     result += "Ground with tower space";
                     break;
                 default:
-                    throw new InvalidOperationException($"Invalid enum value. Enum: {nameof(MapTileType)}, value: {Tiles[x, y]}.");
+                    throw new InvalidOperationException($"Invalid enum value. Enum: {nameof(MapTileType)}, value: {Tiles[x * MAP_SIZE + y]}.");
 
             }
 
@@ -104,12 +117,25 @@ namespace PSG.BattlefieldAndGuns.Map
             return result;
         }
 
+        public MapTileType Get(int x, int y)
+        {
+            ValidateIndex(x, y);
+
+            return Tiles[x * MAP_SIZE + y];
+        }
+
         private void ValidateIndex(int x, int y)
         {
-            if (x < 0 || x >= Tiles.GetLength(0))
+            if (IsNew())
+                InitializeTiles();
+
+            if (Tiles == null)
+                throw new NullReferenceException("Tiles is not initialized.");
+
+            if (x < 0 || x >= MAP_SIZE)
                 throw new IndexOutOfRangeException($"Index out of bounds. Index x: {x}, bounds: 0 - {Tiles.GetLength(0)}.");
 
-            if (y < 0 || y >= Tiles.GetLength(1))
+            if (y < 0 || y >= MAP_SIZE)
                 throw new IndexOutOfRangeException($"Index out of bounds. Index y: {y}, bounds: 0 - {Tiles.GetLength(1)}.");
         }
     }
