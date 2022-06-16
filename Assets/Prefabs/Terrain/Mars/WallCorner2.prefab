@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 7929146831541944008}
   - component: {fileID: 6002448422012343293}
   - component: {fileID: 774924150149086954}
-  - component: {fileID: 924508140046172535}
-  - component: {fileID: 3701652818544668985}
+  - component: {fileID: 8530683599611869756}
+  - component: {fileID: 4325124095728121542}
   m_Layer: 0
   m_Name: WallCorner2
   m_TagString: Untagged
@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 4510572831591370662, guid: 0707136e51efeec41a29613f4d0e5375, type: 3}
+  - {fileID: 2100000, guid: 73e8c923336526c40932e16c8850a250, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -83,7 +83,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &924508140046172535
+--- !u!65 &8530683599611869756
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,9 +94,9 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.43657446, y: 1.9999998, z: 1.0999998}
-  m_Center: {x: 0.7817128, y: -7.1053867e-16, z: 0.54999983}
---- !u!65 &3701652818544668985
+  m_Size: {x: 1, y: 0.20564224, z: 0.5500001}
+  m_Center: {x: 0, y: 0.3971791, z: -0.27500004}
+--- !u!65 &4325124095728121542
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,5 +107,5 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 0.53181916, z: 1.0999998}
-  m_Center: {x: 0, y: -0.7340923, z: 0.5500036}
+  m_Size: {x: 0.220559, y: 1.0000002, z: 0.5500001}
+  m_Center: {x: -0.3897205, y: 3.5527272e-16, z: -0.27500004}

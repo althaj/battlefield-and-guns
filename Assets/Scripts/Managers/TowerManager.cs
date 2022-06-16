@@ -49,8 +49,6 @@ namespace PSG.BattlefieldAndGuns.Managers
 
             CreatePlaceholderTowers();
 
-            towerSpaces = FindObjectsOfType<TowerSpace>();
-
             towerParent = new GameObject("Towers").transform;
         }
 
@@ -219,6 +217,11 @@ namespace PSG.BattlefieldAndGuns.Managers
             currentTowerIndex = -1;
             currentPlaceholder?.SetActive(false);
             currentPlaceholder = null;
+        }
+
+        public void GetTowerSpaces()
+        {
+            towerSpaces = FindObjectsOfType<TowerSpace>();
         }
     } 
 }

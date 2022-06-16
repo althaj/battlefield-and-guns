@@ -10,7 +10,7 @@ namespace PSG.BattlefieldAndGuns.Towers
 
         private void Start()
         {
-            animator = GetComponent<Animator>();
+            animator = GetComponentInChildren<Animator>();
         }
 
         private bool isFree = true;

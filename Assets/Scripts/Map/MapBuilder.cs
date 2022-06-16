@@ -4,6 +4,9 @@ using UnityEngine;
 using PSG.RNG;
 using PSG.BattlefieldAndGuns.Utility;
 using System.Linq;
+using System;
+using PSG.BattlefieldAndGuns.Managers;
+using Unity.AI.Navigation;
 
 namespace PSG.BattlefieldAndGuns.Map
 {
@@ -19,7 +22,9 @@ namespace PSG.BattlefieldAndGuns.Map
         [SerializeField] private GameObject[] groundPrefabs;
 
         [SerializeField] private GameObject towerSpacePrefab;
-        
+
+        [SerializeField] private GameObject mapParent;
+
         #endregion
 
         #region private variables
@@ -47,7 +52,7 @@ namespace PSG.BattlefieldAndGuns.Map
         // Start is called before the first frame update
         private void Start()
         {
-            segments = Resources.LoadAll("MapSegments", typeof(MapSegment)).Cast<MapSegment>().ToArray();
+            segments = Resources.LoadAll("MapSegments", typeof(MapSegment)).Cast<MapSegment>().Where(x => x.IsValid()).ToArray();
 
             for (int i = 0; i < 4; i++)
             {
@@ -55,6 +60,9 @@ namespace PSG.BattlefieldAndGuns.Map
                 GameObject mapChunk = new GameObject("Map chunk");
 
                 GameObject instance = null;
+
+                int towerSpaceCount = 0;
+                float allTowerSpaceCount = (float)segment.TowerSpaceCount();
 
                 for (int x = 0; x < MapSegment.MAP_SIZE; x++)
                 {
@@ -69,6 +77,15 @@ namespace PSG.BattlefieldAndGuns.Map
                                 CreateRoad(segment, x, y, mapChunk);
                                 break;
                             case MapTileType.GroundWithTowerSpace:
+                                CreateTile(TilePrefabType.Ground, x, y, 0, mapChunk);
+
+                                if (RNGManager.Manager[Constants.MAP_BUILDER_RNG_TITLE].NextBool((MapSegment.TOWER_SPACE_COUNT - towerSpaceCount) / allTowerSpaceCount))
+                                {
+                                    CreateTowerSpace(x, y, mapChunk);
+                                    towerSpaceCount++;
+                                }
+
+                                allTowerSpaceCount--;
                                 break;
                             default:
                                 break;
@@ -81,22 +98,34 @@ namespace PSG.BattlefieldAndGuns.Map
                 switch (i)
                 {
                     case 0:
-                        mapChunk.transform.position = new Vector3(-8.5f, 0, 0.5f);
-                        break;
-                    case 1:
-                        mapChunk.transform.position = new Vector3(8.5f, 0, 0.5f);
+                        mapChunk.transform.position = new Vector3(-0.5f, 0, 0.5f);
                         mapChunk.transform.Rotate(transform.up, -90);
                         break;
-                    case 2:
-                        mapChunk.transform.position = new Vector3(0.5f, 0, -0.5f);
+                    case 1:
+                        mapChunk.transform.position = new Vector3(0.5f, 0, 8.5f);
                         mapChunk.transform.Rotate(transform.up, 90);
+                        break;
+                    case 2:
+                        mapChunk.transform.position = new Vector3(0.5f, 0, -8.5f);
                         break;
                     case 3:
                         mapChunk.transform.position = new Vector3(-0.5f, 0, -0.5f);
                         mapChunk.transform.Rotate(transform.up, 180);
                         break;
                 }
+
+                mapChunk.transform.SetParent(mapParent.transform);
             }
+
+            mapParent.GetComponent<NavMeshSurface>().BuildNavMesh();
+
+            FindObjectOfType<TowerManager>().GetTowerSpaces();
+        }
+
+        private void CreateTowerSpace(int x, int y, GameObject parent)
+        {
+            GameObject go = Instantiate(towerSpacePrefab, new Vector3(x * tileSize, 0, y * tileSize), Quaternion.identity);
+            go.transform.SetParent(parent.transform);
         }
 
         private void CreateTile(TilePrefabType prefabType, int x, int y, float rotation, GameObject parent)
