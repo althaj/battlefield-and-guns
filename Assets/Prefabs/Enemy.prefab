@@ -147,7 +147,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 2.5
   angularSpeed: 180
-  radius: 0.1
+  radius: 0.02
   maxHealth: 8
   strength: 1
   reward: 1
