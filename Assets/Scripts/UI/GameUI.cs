@@ -11,9 +11,14 @@ namespace PSG.BattlefieldAndGuns.UI
 {
     public class GameUI : MonoBehaviour
     {
-        #region serialized variables
+        #region Serialized variables
+
         [SerializeField]
         private Text moneyText;
+        [SerializeField]
+        private Text currentHealthText;
+        [SerializeField]
+        private Text maxHealthText;
 
         [Header("Buff panel")]
         [SerializeField]
@@ -54,6 +59,22 @@ namespace PSG.BattlefieldAndGuns.UI
 
             buffPanel.SetActive(false);
             backgroundPanel.SetActive(false);
+
+            // Health
+            Health health = FindObjectOfType<Health>();
+            maxHealthText.text = health.StartingHealth.ToString();
+            health.OnHealthChanged += Health_OnHealthChanged;
+            health.OnGameOver += Health_OnGameOver;
+        }
+
+        private void Health_OnGameOver(object sender, EventArgs e)
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        }
+
+        private void Health_OnHealthChanged(object sender, int e)
+        {
+            currentHealthText.text = e.ToString();
         }
 
         private void TowerManager_OnMoneyChanged(object sender, int e)

@@ -29,11 +29,15 @@ namespace PSG.BattlefieldAndGuns.Core
         private int strength;
         [SerializeField]
         private int reward;
+        [SerializeField]
+        private int damage = 1;
         #endregion
 
         #region Private variables
         private int health;
         private NavMeshAgent navMeshAgent;
+
+        private Vector3 destination;
         #endregion
 
         #region Events
@@ -53,10 +57,21 @@ namespace PSG.BattlefieldAndGuns.Core
             navMeshAgent.radius = radius;
             navMeshAgent.angularSpeed = angularSpeed;
 
-            navMeshAgent.SetDestination(GameObject.FindGameObjectWithTag("End").transform.position);
+            destination = GameObject.FindGameObjectWithTag("End").transform.position;
+            navMeshAgent.SetDestination(destination);
 
             health = maxHealth;
             OnHealthChanged?.Invoke(this, health);
+        }
+
+        private void Update()
+        {
+            if(Vector3.Distance(transform.position, destination) < 0.5f)
+            {
+                FindObjectOfType<Health>().DealDamage(damage);
+
+                FindObjectOfType<EnemyManager>().RemoveEnemy(this);
+            }
         }
 
         /// <summary>
@@ -82,7 +97,6 @@ namespace PSG.BattlefieldAndGuns.Core
         {
             if (this.EnemyManager != null)
                 this.EnemyManager.KillEnemy(this);
-            Destroy(gameObject);
         }
 
         /// <summary>

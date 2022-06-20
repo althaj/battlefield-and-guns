@@ -156,10 +156,21 @@ namespace PSG.BattlefieldAndGuns.Managers
         public void KillEnemy(Enemy enemy)
         {
             towerManager.AddReward(enemy.Reward);
+            RemoveEnemy(enemy);
+        }
+
+        /// <summary>
+        /// Removes the enemy from the level.
+        /// </summary>
+        /// <param name="enemy">Enemy to remove.</param>
+        public void RemoveEnemy(Enemy enemy)
+        {
             spawnedEnemies.Remove(enemy);
 
             if (spawnedEnemies.Count == 0)
                 gameUI.ShowBuffPanel(currentWave % 5 == 0);
+
+            Destroy(enemy.gameObject);
         }
 
         /// <summary>
