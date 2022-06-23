@@ -27,6 +27,10 @@ namespace PSG.BattlefieldAndGuns.UI
         private TowerManager towerManager;
         private GameUI gameUI;
 
+        private RectTransform rectTransform;
+        private Camera mainCamera;
+        private Vector3 anchorWorldPosition;
+
         #endregion
 
         #region properties
@@ -75,6 +79,17 @@ namespace PSG.BattlefieldAndGuns.UI
             panel.SetActive(false);
 
             towerManager = FindObjectOfType<TowerManager>();
+
+            rectTransform = GetComponent<RectTransform>();
+            mainCamera = Camera.main;
+        }
+
+        private void LateUpdate()
+        {
+            if (tower != null)
+            {
+                rectTransform.position = mainCamera.WorldToScreenPoint(anchorWorldPosition);
+            }
         }
 
         public void Show(Tower tower, TowerData towerData)
@@ -99,7 +114,7 @@ namespace PSG.BattlefieldAndGuns.UI
             towerManager.OnMoneyChanged += TowerManager_OnMoneyChanged;
             SetButtonEnabled();
 
-            transform.position = tower.transform.position + Vector3.up * 5;
+            anchorWorldPosition = tower.transform.position + Vector3.up * 2 + Vector3.forward * 2;
 
             panel.SetActive(true);
         }
