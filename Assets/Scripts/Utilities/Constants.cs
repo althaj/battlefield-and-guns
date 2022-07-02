@@ -10,5 +10,9 @@ namespace PSG.BattlefieldAndGuns.Utility
     {
         public const string MAP_BUILDER_RNG_TITLE = "MapBuilder";
 
+        // Scene management
+        public const int SCENE_MANAGEMENT_MAIN_MENU_INDEX = 0;
+        public const int SCENE_MANAGEMENT_MARS_INDEX = 1;
+
     }
 }

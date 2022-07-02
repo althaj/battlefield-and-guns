@@ -69,7 +69,7 @@ namespace PSG.BattlefieldAndGuns.UI
 
         private void Health_OnGameOver(object sender, EventArgs e)
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+            UnityEngine.SceneManagement.SceneManager.LoadScene(Constants.SCENE_MANAGEMENT_MAIN_MENU_INDEX);
         }
 
         private void Health_OnHealthChanged(object sender, int e)
