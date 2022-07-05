@@ -1465,7 +1465,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Gatling
+  m_Text: Machine gun
 --- !u!222 &752064432
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1584,7 +1584,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingMoney: 50
   towerPrefabs:
-  - {fileID: 1516023674194675666, guid: f1e6f6e10824c39439e4e053d03ec03c, type: 3}
+  - {fileID: 1194546600361141051, guid: 1f665af85b8e2a7468211b3ba1861bee, type: 3}
   - {fileID: 1319443722270894407, guid: b7297c1e97768f74a967bc0463994ee6, type: 3}
   - {fileID: 1319443722270894407, guid: 01d951bc1cdce954c994095070d2eede, type: 3}
   rangeIndicatorPrefab: {fileID: 5690017102989448835, guid: 9527faad2aafb4c4aa9a8375232433f9, type: 3}

@@ -186,7 +186,7 @@ namespace PSG.BattlefieldAndGuns.Managers
                 return;
             }
 
-            BuildTower(towerPrefabs[currentTowerIndex], space.transform.position);
+            BuildTower(towerPrefabs[currentTowerIndex], space.transform.position + Vector3.up * 0.5f);
             space.IsFree = false;
         }
 
