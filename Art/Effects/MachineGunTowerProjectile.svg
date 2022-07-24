@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:export-ydpi="32.509998"
+   inkscape:export-xdpi="32.509998"
+   inkscape:export-filename="C:\Users\David\Documents\GitHub\battlefield-and-guns\Assets\Textures\Towers\MachineGunTowerProjectile.png"
+   sodipodi:docname="MachineGunTowerProjectile.svg"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   id="svg841"
+   version="1.1"
+   viewBox="0 0 100 25"
+   height="25mm"
+   width="100mm">
+  <defs
+     id="defs835">
+    <linearGradient
+       id="linearGradient1415"
+       inkscape:collect="always">
+      <stop
+         id="stop1411"
+         offset="0"
+         style="stop-color:#4a4a00;stop-opacity:0" />
+      <stop
+         id="stop1413"
+         offset="1"
+         style="stop-color:#ffcc00;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient
+       gradientUnits="userSpaceOnUse"
+       y2="12.5"
+       x2="93.488879"
+       y1="12.5"
+       x1="4.9281019"
+       id="linearGradient1417"
+       xlink:href="#linearGradient1415"
+       inkscape:collect="always" />
+  </defs>
+  <sodipodi:namedview
+     inkscape:window-maximized="1"
+     inkscape:window-y="-8"
+     inkscape:window-x="1912"
+     inkscape:window-height="1017"
+     inkscape:window-width="1920"
+     showgrid="false"
+     inkscape:document-rotation="0"
+     inkscape:current-layer="layer1"
+     inkscape:document-units="mm"
+     inkscape:cy="99.915168"
+     inkscape:cx="-18.356711"
+     inkscape:zoom="1.4"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base" />
+  <metadata
+     id="metadata838">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Layer 1">
+    <path
+       sodipodi:nodetypes="sssss"
+       d="m 93.488879,12.5 c 0,5.944101 -9.637292,10.762748 -21.525496,10.762748 -11.888203,0 -67.0352811,-4.818647 -67.0352811,-10.762748 0,-5.9441016 55.1470781,-10.7627481 67.0352811,-10.7627481 11.888204,0 21.525496,4.8186465 21.525496,10.7627481 z"
+       style="fill:url(#linearGradient1417);stroke-width:0.86102;stroke-linecap:round;stroke-linejoin:round;stroke-dashoffset:10.8064;paint-order:fill markers stroke;fill-opacity:1"
+       id="path1404" />
+    <path
+       id="path1407"
+       style="fill:#ffe680;fill-opacity:0.608871;stroke-width:0.955151;stroke-linecap:round;stroke-linejoin:round;stroke-dashoffset:10.8064;paint-order:fill markers stroke"
+       d="m 97.898826,12.5 c 0,6.593937 -10.690883,11.939379 -23.878759,11.939379 -7.830644,0 -45.656105,-2.392498 -55.593664,-5.366906 -3.051118,-0.91323 19.402743,-1.760277 17.060916,-2.763742 -2.876345,-1.232505 -9.712194,-1.39679 -9.712194,-2.873288 0,-2.017362 3.281359,-4.0054223 8.213918,-5.7932841 C 36.718352,6.6528899 15.631681,7.9967064 19.095915,7.1589783 29.834793,4.5620813 67.099432,0.56062046 74.020067,0.56062046 87.207943,0.56062046 97.898826,5.9060628 97.898826,12.5 Z"
+       sodipodi:nodetypes="sssssssss" />
+  </g>
+</svg>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:export-ydpi="32.512001"
+   inkscape:export-xdpi="32.512001"
+   inkscape:export-filename="C:\Users\David\Documents\GitHub\battlefield-and-guns\Assets\Textures\Towers\MachineGunTowerMuzzle.png"
+   sodipodi:docname="MachineGunTowerMuzzle.svg"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 100 100"
+   height="100mm"
+   width="100mm">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     inkscape:window-maximized="1"
+     inkscape:window-y="-8"
+     inkscape:window-x="1912"
+     inkscape:window-height="1017"
+     inkscape:window-width="1920"
+     showgrid="false"
+     inkscape:document-rotation="0"
+     inkscape:current-layer="layer1"
+     inkscape:document-units="mm"
+     inkscape:cy="219.56628"
+     inkscape:cx="185.04056"
+     inkscape:zoom="0.98994949"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Layer 1">
+    <path
+       transform="translate(28.933641,19.865799)"
+       inkscape:transform-center-y="-8.9227717"
+       inkscape:transform-center-x="4.7241564"
+       d="M 68.610521,71.942128 C 63.884271,73.949222 19.599582,59.86461 14.747416,59.854523 c -3.380118,-0.007 -41.071419,15.406843 -41.465857,12.041575 -0.566216,-4.830849 38.744985,-47.937622 41.917644,-52.073869 2.210139,-2.881394 0.508661,-33.302515 3.516899,-31.882254 4.318333,2.038789 18.811951,52.456069 20.963335,56.707776 1.498698,2.961825 32.223486,25.896194 28.931084,27.294377 z"
+       inkscape:randomized="0.1"
+       inkscape:rounded="0.08"
+       inkscape:flatsided="false"
+       sodipodi:arg2="2.120829"
+       sodipodi:arg1="0.53886186"
+       sodipodi:r2="19.088226"
+       sodipodi:r1="58.853939"
+       sodipodi:cy="41.961315"
+       sodipodi:cx="21.648832"
+       sodipodi:sides="3"
+       id="path833"
+       style="fill:#e6e6e6;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dashoffset:10.8064;paint-order:fill markers stroke"
+       sodipodi:type="star" />
+  </g>
+</svg>
