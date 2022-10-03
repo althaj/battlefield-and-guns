@@ -57,6 +57,8 @@ namespace PSG.BattlefieldAndGuns.Core
             navMeshAgent.radius = radius;
             navMeshAgent.angularSpeed = angularSpeed;
 
+            navMeshAgent.acceleration = 18f;
+
             destination = GameObject.FindGameObjectWithTag("End").transform.position;
             navMeshAgent.SetDestination(destination);
 

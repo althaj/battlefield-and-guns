@@ -132,7 +132,7 @@ namespace PSG.BattlefieldAndGuns.Managers
                 SpawnEnemy(enemyPrefab);
                 remainingStrength -= selectedEnemy.Strength;
 
-                yield return new WaitForSeconds(0.2f);
+                yield return new WaitForSeconds(0.5f);
             }
         }
 
