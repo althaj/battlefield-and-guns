@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ebe4eeb77965f7149ad8f90a4c82c9ea
+guid: 5af2f3dbcc3c3624ea929a237c406551
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
@@ -15,7 +15,17 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Tires
+      name: Material.001
+    second: {fileID: 2100000, guid: b4a8b137031b75d4e9a57f7cb213f32f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.002
+    second: {fileID: 2100000, guid: 0f566faa2c6600b48afcae2a8c767d45, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tire
     second: {fileID: 2100000, guid: 0f566faa2c6600b48afcae2a8c767d45, type: 2}
   materials:
     materialImportMode: 2
@@ -49,7 +59,7 @@ ModelImporter:
       takeName: Armature|Idle
       internalID: 0
       firstFrame: 0
-      lastFrame: 29
+      lastFrame: 59
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -76,7 +86,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 0.02
+    globalScale: 0.1
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -127,7 +137,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.02
+    globalScale: 0.1
     rootMotionBoneName: Root
     hasTranslationDoF: 0
     hasExtraRoot: 0
