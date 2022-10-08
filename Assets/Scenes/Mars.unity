@@ -216,7 +216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefabs:
-  - {fileID: 8343906554610196527, guid: 6d1bc5638a412ac4d96baf6b553369d5, type: 3}
+  - {fileID: 8343906554610196527, guid: 5d275540c4402cb4e864b48fc19d7b0a, type: 3}
   initialWaveStrength: 7
   waveStrengthScaling: 2
   spawnPosition: {fileID: 222229863}
