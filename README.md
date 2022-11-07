@@ -2,4 +2,4 @@
 Tower defense roguelike PC game.
 
 ## Unity version used
-2020.2.1f1
+2022.2.0b10
