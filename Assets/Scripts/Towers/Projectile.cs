@@ -1,4 +1,5 @@
 using PSG.BattlefieldAndGuns.Core;
+using PSG.BattlefieldAndGuns.Managers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,9 +11,15 @@ namespace PSG.BattlefieldAndGuns.Towers
         private Enemy target;
         private int damage;
         private bool hasTarget = false;
+        private PoolManager poolManager;
 
         [SerializeField]
         private float speed;
+
+        private void Start()
+        {
+            poolManager = FindObjectOfType<PoolManager>();
+        }
 
         // Update is called once per frame
         void Update()
@@ -61,7 +68,7 @@ namespace PSG.BattlefieldAndGuns.Towers
             {
                 target.DealDamage(damage);
             }
-            Destroy(gameObject);
+            poolManager.ReleaseBullet(gameObject);
         }
     }
 }

@@ -133,7 +133,6 @@ GameObject:
   - component: {fileID: 2006407927960533377}
   - component: {fileID: 5564230006229476347}
   - component: {fileID: 1782201874239218772}
-  - component: {fileID: 1352698795063436827}
   - component: {fileID: 1885839025114095850}
   - component: {fileID: 9086111266605228484}
   - component: {fileID: 2566466009180386853}
@@ -195,18 +194,6 @@ MonoBehaviour:
   towerData: {fileID: 11400000, guid: 2e8d00d140d65eb4b8810fa6cae75e03, type: 2}
   level: 2
   nextLevelPrefab: {fileID: 0}
---- !u!114 &1352698795063436827
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1194546600361141051}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d363832ab212b84c8b0ae845d7a911b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1885839025114095850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,7 +255,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3bff2bccb729d04192c2f1939ac3d02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 3897121399012586762, guid: 7c392f540ae92544d9305af8feffe430, type: 3}
   weaponEnd: {fileID: 2189119137049083534}
 --- !u!114 &3104164489718077894
 MonoBehaviour:
