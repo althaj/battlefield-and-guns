@@ -1,12 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using PSG.RNG;
 using PSG.BattlefieldAndGuns.Utility;
 using System.Linq;
-using System;
 using PSG.BattlefieldAndGuns.Managers;
 using Unity.AI.Navigation;
+using System.Collections.Generic;
+using UnityEngine.AI;
 
 namespace PSG.BattlefieldAndGuns.Map
 {
@@ -30,6 +29,10 @@ namespace PSG.BattlefieldAndGuns.Map
         #region private variables
 
         private MapSegment[] segments;
+        private IEnumerable<Transform> pathCorners;
+        private Vector3[] pathArray;
+
+        private Vector3 spawnPoint;
 
         private enum TilePrefabType
         {
@@ -52,6 +55,8 @@ namespace PSG.BattlefieldAndGuns.Map
         // Start is called before the first frame update
         private void Start()
         {
+            pathCorners = new List<Transform>();
+
             segments = Resources.LoadAll("MapSegments", typeof(MapSegment)).Cast<MapSegment>().Where(x => x.IsValid()).ToArray();
 
             for (int i = 0; i < 4; i++)
@@ -119,7 +124,20 @@ namespace PSG.BattlefieldAndGuns.Map
 
             mapParent.GetComponent<NavMeshSurface>().BuildNavMesh();
 
+            GetPath();
+
             FindObjectOfType<TowerManager>().GetTowerSpaces();
+        }
+
+        private void GetPath()
+        {
+            EnemyManager enemyManager = FindObjectOfType<EnemyManager>();
+            spawnPoint = enemyManager.SpawnPoint.Value;
+            // Order the path
+            pathCorners = pathCorners.OrderBy(p => GetPathLength(spawnPoint, p.position));
+            pathCorners = pathCorners.Append(GameObject.FindGameObjectWithTag("End").transform);
+            pathArray = pathCorners.Select(p => p.position).ToArray();
+            enemyManager.Path = pathArray;
         }
 
         private void CreateTowerSpace(int x, int y, GameObject parent)
@@ -128,37 +146,42 @@ namespace PSG.BattlefieldAndGuns.Map
             go.transform.SetParent(parent.transform);
         }
 
-        private void CreateTile(TilePrefabType prefabType, int x, int y, float rotation, GameObject parent)
+        private GameObject CreateTile(TilePrefabType prefabType, int x, int y, float rotation, GameObject parent)
         {
+            GameObject go;
+
             switch (prefabType)
             {
                 case TilePrefabType.RoadStraight:
-                    InstantiateTile(RNGManager.Manager[Constants.MAP_BUILDER_RNG_TITLE].NextElement(roadStraightPrefabs), x, y, rotation, parent);
+                    go = InstantiateTile(RNGManager.Manager[Constants.MAP_BUILDER_RNG_TITLE].NextElement(roadStraightPrefabs), x, y, rotation, parent);
                     break;
                 case TilePrefabType.RoadCorner:
-                    InstantiateTile(RNGManager.Manager[Constants.MAP_BUILDER_RNG_TITLE].NextElement(roadCornerPrefabs), x, y, rotation, parent);
+                    go = InstantiateTile(RNGManager.Manager[Constants.MAP_BUILDER_RNG_TITLE].NextElement(roadCornerPrefabs), x, y, rotation, parent);
                     break;
                 case TilePrefabType.WallStraight:
-                    InstantiateTile(RNGManager.Manager[Constants.MAP_BUILDER_RNG_TITLE].NextElement(wallStraightPrefabs), x, y, rotation, parent);
+                    go = InstantiateTile(RNGManager.Manager[Constants.MAP_BUILDER_RNG_TITLE].NextElement(wallStraightPrefabs), x, y, rotation, parent);
                     break;
                 case TilePrefabType.WallCornerOuter:
-                    InstantiateTile(RNGManager.Manager[Constants.MAP_BUILDER_RNG_TITLE].NextElement(wallCornerOuterPrefabs), x, y, rotation, parent);
+                    go = InstantiateTile(RNGManager.Manager[Constants.MAP_BUILDER_RNG_TITLE].NextElement(wallCornerOuterPrefabs), x, y, rotation, parent);
                     break;
                 case TilePrefabType.WallCornerInner:
-                    InstantiateTile(RNGManager.Manager[Constants.MAP_BUILDER_RNG_TITLE].NextElement(wallCornerInnerPrefabs), x, y, rotation, parent);
+                    go = InstantiateTile(RNGManager.Manager[Constants.MAP_BUILDER_RNG_TITLE].NextElement(wallCornerInnerPrefabs), x, y, rotation, parent);
                     break;
                 case TilePrefabType.Ground:
-                    InstantiateTile(RNGManager.Manager[Constants.MAP_BUILDER_RNG_TITLE].NextElement(groundPrefabs), x, y, rotation, parent);
+                    go = InstantiateTile(RNGManager.Manager[Constants.MAP_BUILDER_RNG_TITLE].NextElement(groundPrefabs), x, y, rotation, parent);
                     break;
                 default:
-                    break;
+                    return null;
             }
+
+            return go;
         }
 
-        private void InstantiateTile(GameObject prefab, int x, int y, float rotation, GameObject parent)
+        private GameObject InstantiateTile(GameObject prefab, int x, int y, float rotation, GameObject parent)
         {
             GameObject go = Instantiate(prefab, new Vector3(x * tileSize, 0, y * tileSize), Quaternion.Euler(90, rotation, 0));
             go.transform.SetParent(parent.transform);
+            return go;
         }
 
         private void CreateRoad(MapSegment segment, int x, int y, GameObject parent)
@@ -175,7 +198,7 @@ namespace PSG.BattlefieldAndGuns.Map
                 return;
             }
 
-            if(segment.Get(x - 1, y) == MapTileType.Road && segment.Get(x + 1, y) == MapTileType.Road)
+            if (segment.Get(x - 1, y) == MapTileType.Road && segment.Get(x + 1, y) == MapTileType.Road)
             {
                 CreateRoadStraight(x, y, 0, parent);
                 return;
@@ -222,9 +245,53 @@ namespace PSG.BattlefieldAndGuns.Map
 
         private void CreateRoadCorner(int x, int y, float rotation, GameObject parent)
         {
-            CreateTile(TilePrefabType.RoadCorner, x, y, rotation, parent);
+            GameObject pathCorner = CreateTile(TilePrefabType.RoadCorner, x, y, rotation, parent);
             CreateTile(TilePrefabType.WallCornerOuter, x, y, rotation, parent);
             CreateTile(TilePrefabType.WallCornerInner, x, y, rotation + 180, parent);
+
+            pathCorners = pathCorners.Append(pathCorner.transform);
         }
+
+        private float GetPathLength(Vector3 start, Vector3 end)
+        {
+            NavMeshPath navMeshPath = new NavMeshPath();
+            //navMeshPath.ClearCorners();
+
+            if (NavMesh.CalculatePath(start, end, NavMesh.AllAreas, navMeshPath) == false)
+                return float.MaxValue;
+
+            float lng = 0.0f;
+
+            if ((navMeshPath.status != NavMeshPathStatus.PathInvalid) && (navMeshPath.corners.Length > 1))
+            {
+                for (int i = 1; i < navMeshPath.corners.Length; ++i)
+                {
+                    lng += Vector3.Distance(navMeshPath.corners[i - 1], navMeshPath.corners[i]);
+                }
+            }
+
+            return lng;
+        }
+
+        #region Gizmos
+
+        private void OnDrawGizmos()
+        {
+            if (pathCorners != null && pathCorners.Count() > 1)
+            {
+                Gizmos.color = Color.blue;
+                for (int i = 1; i < pathArray.Length; i++)
+                {
+                    Gizmos.DrawLine(pathArray[i], pathArray[i - 1]);
+                }
+
+                if(spawnPoint != null)
+                {
+                    Gizmos.DrawLine(pathArray[0], spawnPoint);
+                }
+            }
+        }
+
+        #endregion
     }
 }

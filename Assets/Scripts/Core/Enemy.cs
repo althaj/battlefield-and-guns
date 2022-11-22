@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using PSG.BattlefieldAndGuns.Managers;
+using PSG.RNG;
+using PSG.BattlefieldAndGuns.Utility;
 
 namespace PSG.BattlefieldAndGuns.Core
 {
@@ -14,6 +16,37 @@ namespace PSG.BattlefieldAndGuns.Core
         public int Strength { get => strength; }
         public int Reward { get => reward; }
         public EnemyManager EnemyManager { get; set; }
+
+        private Vector3[] path;
+        public Vector3[] Path
+        {
+            get => path;
+            set
+            {
+                path = value;
+                NavMeshAgent.SetDestination(Path[currentPathIndex]);
+            }
+        }
+
+        private NavMeshAgent navMeshAgent;
+        private NavMeshAgent NavMeshAgent
+        {
+            get
+            {
+                if (navMeshAgent == null)
+                {
+                    navMeshAgent = GetComponent<NavMeshAgent>();
+
+                    if (navMeshAgent == null)
+                    {
+                        navMeshAgent = gameObject.AddComponent<NavMeshAgent>();
+                    }
+                }
+
+                return navMeshAgent;
+            }
+        }
+
         #endregion
 
         #region Serialized fields
@@ -35,9 +68,11 @@ namespace PSG.BattlefieldAndGuns.Core
 
         #region Private variables
         private int health;
-        private NavMeshAgent navMeshAgent;
 
-        private Vector3 destination;
+        private int currentPathIndex;
+        private NavMeshHit hit;
+
+        private Vector3? nextPoint;
         #endregion
 
         #region Events
@@ -46,21 +81,15 @@ namespace PSG.BattlefieldAndGuns.Core
 
         private void Start()
         {
-            navMeshAgent = GetComponent<NavMeshAgent>();
+            NavMeshAgent.updateRotation = false;
 
-            if(navMeshAgent == null)
-            {
-                navMeshAgent = gameObject.AddComponent<NavMeshAgent>();
-            }
+            NavMeshAgent.speed = speed * RNGManager.Manager[Constants.ENEMY_MANAGER_RNG_TITLE].NextFloat(0.9f, 1.1f);
+            NavMeshAgent.angularSpeed = angularSpeed;
+            NavMeshAgent.radius = radius;
+            NavMeshAgent.autoBraking = false;
 
-            navMeshAgent.speed = speed;
-            navMeshAgent.radius = radius;
-            navMeshAgent.angularSpeed = angularSpeed;
-
-            navMeshAgent.acceleration = 18f;
-
-            destination = GameObject.FindGameObjectWithTag("End").transform.position;
-            navMeshAgent.SetDestination(destination);
+            NavMeshAgent.acceleration = 18f;
+            NavMeshAgent.height = 0.1f;
 
             health = maxHealth;
             OnHealthChanged?.Invoke(this, health);
@@ -68,11 +97,24 @@ namespace PSG.BattlefieldAndGuns.Core
 
         private void Update()
         {
-            if(Vector3.Distance(transform.position, destination) < 0.5f)
+            if (Path != null && Path.Length > currentPathIndex)
             {
-                FindObjectOfType<Health>().DealDamage(damage);
+                if (Vector3.Distance(transform.position, Path[currentPathIndex]) < 0.2f)
+                {
+                    if (Path.Length == currentPathIndex - 1)
+                    {
+                        FindObjectOfType<Health>().DealDamage(damage);
+                        FindObjectOfType<EnemyManager>().RemoveEnemy(this);
+                    }
+                    else
+                    {
+                        currentPathIndex++;
+                        NavMeshAgent.SetDestination(Path[currentPathIndex]);
+                    }
+                }
 
-                FindObjectOfType<EnemyManager>().RemoveEnemy(this);
+                Quaternion lookOnAngle = Quaternion.LookRotation(Path[currentPathIndex] - transform.position);
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookOnAngle, angularSpeed * Time.deltaTime);
             }
         }
 
@@ -86,7 +128,7 @@ namespace PSG.BattlefieldAndGuns.Core
 
             OnHealthChanged?.Invoke(this, health);
 
-            if(health <= 0)
+            if (health <= 0)
             {
                 Die();
             }
@@ -116,6 +158,17 @@ namespace PSG.BattlefieldAndGuns.Core
             speed = Mathf.Max(speed * speedMultiplier, 0.1f);
             // Reward cannot be negative
             reward = (int)Mathf.Max(reward * rewardMultiplier, 0);
+        }
+
+        void OnDrawGizmos()
+        {
+            // Draw a yellow sphere at the transform's position
+            Gizmos.color = Color.yellow;
+            if (nextPoint.HasValue)
+            {
+                Gizmos.DrawLine(transform.position, nextPoint.Value);
+                Gizmos.DrawSphere(nextPoint.Value, 0.1f);
+            }
         }
     }
 
