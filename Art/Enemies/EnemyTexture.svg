@@ -8,127 +8,127 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   inkscape:export-ydpi="130.048"
-   inkscape:export-xdpi="130.048"
-   inkscape:export-filename="C:\Users\David\Documents\GitHub\battlefield-and-guns\Assets\Textures\Enemies\EnemyTexture.png"
-   sodipodi:docname="EnemyTexture.svg"
-   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
-   id="svg8"
-   version="1.1"
-   viewBox="0 0 100 100"
+   width="100mm"
    height="100mm"
-   width="100mm">
+   viewBox="0 0 100 100"
+   version="1.1"
+   id="svg8"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   sodipodi:docname="EnemyTexture.svg"
+   inkscape:export-filename="C:\Users\David\Documents\GitHub\battlefield-and-guns\Assets\Textures\Enemies\EnemyTexture.png"
+   inkscape:export-xdpi="130.048"
+   inkscape:export-ydpi="130.048">
   <defs
      id="defs2">
     <linearGradient
-       inkscape:collect="always"
-       id="linearGradient866">
-      <stop
-         style="stop-color:#4e597c;stop-opacity:1"
-         offset="0"
-         id="stop862" />
-      <stop
-         style="stop-color:#000000;stop-opacity:1"
-         offset="1"
-         id="stop864" />
-    </linearGradient>
-    <linearGradient
-       id="linearGradient856"
+       id="linearGradient866"
        inkscape:collect="always">
       <stop
-         id="stop852"
+         id="stop862"
          offset="0"
-         style="stop-color:#ffffff;stop-opacity:1" />
+         style="stop-color:#5f626b;stop-opacity:1" />
       <stop
-         id="stop854"
+         id="stop864"
          offset="1"
-         style="stop-color:#717396;stop-opacity:1" />
+         style="stop-color:#000000;stop-opacity:1" />
     </linearGradient>
     <linearGradient
        inkscape:collect="always"
-       id="linearGradient851">
+       id="linearGradient856">
       <stop
-         style="stop-color:#d4cfbd;stop-opacity:1"
+         style="stop-color:#ffffff;stop-opacity:1"
          offset="0"
-         id="stop847" />
+         id="stop852" />
       <stop
-         style="stop-color:#302727;stop-opacity:1"
+         style="stop-color:#717396;stop-opacity:1"
          offset="1"
-         id="stop849" />
+         id="stop854" />
     </linearGradient>
     <linearGradient
-       id="linearGradient839"
+       id="linearGradient851"
        inkscape:collect="always">
       <stop
-         id="stop835"
+         id="stop847"
          offset="0"
-         style="stop-color:#b26e6e;stop-opacity:1" />
+         style="stop-color:#d4cfbd;stop-opacity:1" />
       <stop
-         id="stop837"
+         id="stop849"
          offset="1"
-         style="stop-color:#420000;stop-opacity:1" />
+         style="stop-color:#302727;stop-opacity:1" />
     </linearGradient>
     <linearGradient
-       gradientUnits="userSpaceOnUse"
-       y2="100"
-       x2="11.528274"
-       y1="0"
-       x1="11.528274"
-       id="linearGradient841"
+       inkscape:collect="always"
+       id="linearGradient839">
+      <stop
+         style="stop-color:#403873;stop-opacity:1"
+         offset="0"
+         id="stop835" />
+      <stop
+         style="stop-color:#272733;stop-opacity:1"
+         offset="1"
+         id="stop837" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
        xlink:href="#linearGradient839"
-       inkscape:collect="always" />
+       id="linearGradient841"
+       x1="11.528274"
+       y1="0"
+       x2="11.528274"
+       y2="100"
+       gradientUnits="userSpaceOnUse" />
     <linearGradient
-       gradientTransform="translate(25.000001)"
+       inkscape:collect="always"
+       xlink:href="#linearGradient851"
+       id="linearGradient845"
+       gradientUnits="userSpaceOnUse"
+       x1="11.528274"
+       y1="0"
+       x2="11.528274"
+       y2="100"
+       gradientTransform="translate(25.000001)" />
+    <linearGradient
        y2="100"
        x2="11.528274"
        y1="0"
        x1="11.528274"
+       gradientTransform="translate(50.000001)"
        gradientUnits="userSpaceOnUse"
-       id="linearGradient845"
-       xlink:href="#linearGradient851"
+       id="linearGradient850"
+       xlink:href="#linearGradient856"
        inkscape:collect="always" />
     <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient856"
-       id="linearGradient850"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(50.000001)"
-       x1="11.528274"
-       y1="0"
+       y2="100"
        x2="11.528274"
-       y2="100" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient866"
-       id="linearGradient860"
-       gradientUnits="userSpaceOnUse"
+       y1="0"
+       x1="11.528274"
        gradientTransform="translate(75.000001)"
-       x1="11.528274"
-       y1="0"
-       x2="11.528274"
-       y2="100" />
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient860"
+       xlink:href="#linearGradient866"
+       inkscape:collect="always" />
   </defs>
   <sodipodi:namedview
-     inkscape:window-maximized="1"
-     inkscape:window-y="-8"
-     inkscape:window-x="-8"
-     inkscape:window-height="1017"
-     inkscape:window-width="1920"
-     inkscape:snap-page="true"
-     inkscape:snap-bbox="true"
-     showgrid="false"
-     inkscape:document-rotation="0"
-     inkscape:current-layer="layer1"
-     inkscape:document-units="mm"
-     inkscape:cy="222.42098"
-     inkscape:cx="105.67008"
-     inkscape:zoom="1.3752941"
-     inkscape:pageshadow="2"
-     inkscape:pageopacity="0.0"
-     borderopacity="1.0"
-     bordercolor="#666666"
+     id="base"
      pagecolor="#ffffff"
-     id="base" />
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.9449596"
+     inkscape:cx="169.01716"
+     inkscape:cy="207.24971"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     inkscape:snap-bbox="true"
+     inkscape:snap-page="true"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="3832"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -142,36 +142,36 @@
     </rdf:RDF>
   </metadata>
   <g
-     id="layer1"
+     inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     inkscape:label="Layer 1">
+     id="layer1">
     <rect
-       y="0"
-       x="-2.7815501e-08"
-       height="100"
-       width="25"
+       style="fill:url(#linearGradient841);fill-opacity:1;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dashoffset:10.8064;paint-order:fill markers stroke"
        id="rect833"
-       style="fill:url(#linearGradient841);fill-opacity:1;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dashoffset:10.8064;paint-order:fill markers stroke" />
-    <rect
-       style="fill:url(#linearGradient845);fill-opacity:1;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dashoffset:10.8064;paint-order:fill markers stroke"
-       id="rect843"
        width="25"
        height="100"
-       x="25"
+       x="-2.7815501e-08"
        y="0" />
     <rect
        y="0"
-       x="50"
+       x="25"
        height="100"
        width="25"
-       id="rect848"
-       style="fill:url(#linearGradient850);fill-opacity:1;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dashoffset:10.8064;paint-order:fill markers stroke" />
+       id="rect843"
+       style="fill:url(#linearGradient845);fill-opacity:1;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dashoffset:10.8064;paint-order:fill markers stroke" />
     <rect
-       style="fill:url(#linearGradient860);fill-opacity:1;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dashoffset:10.8064;paint-order:fill markers stroke"
-       id="rect858"
+       style="fill:url(#linearGradient850);fill-opacity:1;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dashoffset:10.8064;paint-order:fill markers stroke"
+       id="rect848"
        width="25"
        height="100"
-       x="75"
+       x="50"
        y="0" />
+    <rect
+       y="0"
+       x="75"
+       height="100"
+       width="25"
+       id="rect858"
+       style="fill:url(#linearGradient860);fill-opacity:1;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dashoffset:10.8064;paint-order:fill markers stroke" />
   </g>
 </svg>

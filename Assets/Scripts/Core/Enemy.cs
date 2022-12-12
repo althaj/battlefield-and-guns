@@ -99,7 +99,7 @@ namespace PSG.BattlefieldAndGuns.Core
         {
             if (Path != null && Path.Length > currentPathIndex)
             {
-                if (Vector3.Distance(transform.position, Path[currentPathIndex]) < 0.2f)
+                if (Vector3.Distance(transform.position, Path[currentPathIndex]) < 0.5f)
                 {
                     if (Path.Length == currentPathIndex - 1)
                     {
