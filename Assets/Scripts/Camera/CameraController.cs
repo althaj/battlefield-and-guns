@@ -9,17 +9,6 @@ namespace PSG.BattlefieldAndGuns.PSGCamera
     {
         #region serialized variables
 
-        [Header("Camera pan bounds")]
-        [SerializeField]
-        private float boundsXMin;
-        [SerializeField]
-        private float boundsXMax;
-
-        [SerializeField]
-        private float boundsZMin;
-        [SerializeField]
-        private float boundsZMax;
-
         [Header("Camera pan settings")]
         [SerializeField]
         private float cameraPanSpeed;
@@ -27,18 +16,31 @@ namespace PSG.BattlefieldAndGuns.PSGCamera
         [SerializeField]
         private float distanceFromEdge;
 
-        [Header("Camera zoom settings")]
         [SerializeField]
-        public float minFovScale;
+        private AnimationCurve xPositionBounds;
 
         [SerializeField]
-        public float maxFovScale;
+        private AnimationCurve zUpPositionBounds;
 
         [SerializeField]
-        public float fovChangeSpeed;
+        private AnimationCurve zDownPositionBounds;
+
+        [Header("Zoom settings")]
+        [SerializeField]
+        private float fovChangeSpeed;
 
         [SerializeField]
-        public float fovMultiplier;
+        private AnimationCurve fovCurve;
+
+        [SerializeField]
+        private AnimationCurve heightCurve;
+
+        [SerializeField]
+        private AnimationCurve rotationCurve;
+
+        [SerializeField]
+        [Range(0, 1)]
+        private float startingZoom;
 
         #endregion
 
@@ -47,18 +49,24 @@ namespace PSG.BattlefieldAndGuns.PSGCamera
         private Vector2 screenSize;
         private Vector2 cameraMovement;
 
-        private float currentFovScale = 1;
-
         private Camera mainCamera;
 
-        private float currentBoundsXMin;
-        private float currentBoundsXMax;
-        private float currentBoundsZMin;
-        private float currentBoundsZMax;
-
         Vector3 originalPosition;
+        Quaternion originalRotation;
+
 
         Vector3? previousMousePosition;
+
+        private float currentZoom;
+
+        Vector3 targetPosition;
+        Quaternion targetRotation;
+        float targetFOV;
+
+        float boundsZUp;
+        float boundsZDown;
+        float boundsX;
+        float height;
 
         #endregion
 
@@ -76,20 +84,22 @@ namespace PSG.BattlefieldAndGuns.PSGCamera
         void Start()
         {
             originalPosition = transform.position;
+            originalRotation = transform.rotation;
 
             screenSize = new Vector2(Screen.width, Screen.height);
             mainCamera = Camera.main;
+
+            currentZoom = startingZoom;
+
+            UpdateCameraZoom();
         }
 
         void Update()
         {
-            SetCameraMovement();
             SetCameraZoom();
-
-            transform.Translate(cameraMovement * Time.deltaTime * cameraPanSpeed);
-
-            mainCamera.fieldOfView = currentFovScale * fovMultiplier;
+            SetCameraMovement();
         }
+
         #region Private methods
 
         /// <summary>
@@ -112,7 +122,7 @@ namespace PSG.BattlefieldAndGuns.PSGCamera
             // Check mouse pan
             if (previousMousePosition != null)
             {
-                cameraMovement = (previousMousePosition.Value - mousePosition).normalized * cameraPanSpeed * 2;
+                cameraMovement = (previousMousePosition.Value - mousePosition).normalized * cameraPanSpeed * 6; // Hard coded multiplier
                 previousMousePosition = mousePosition;
             }
             // Check screen edges
@@ -129,16 +139,16 @@ namespace PSG.BattlefieldAndGuns.PSGCamera
                     cameraMovement.y = cameraPanSpeed;
             }
 
-            // Check if we are out of bounds
-            if (transform.position.x < currentBoundsXMin + originalPosition.x && cameraMovement.x < 0)
-                cameraMovement.x = 0;
-            else if (transform.position.x > currentBoundsXMax + originalPosition.x && cameraMovement.x > 0)
-                cameraMovement.x = 0;
-
-            if (transform.position.z < currentBoundsZMin + originalPosition.z && cameraMovement.y < 0)
-                cameraMovement.y = 0;
-            else if (transform.position.z > currentBoundsZMax + originalPosition.z && cameraMovement.y > 0)
-                cameraMovement.y = 0;
+            // Apply bounds
+            targetPosition = transform.position + new Vector3(cameraMovement.x, 0, cameraMovement.y);
+            targetPosition.x = Mathf.Clamp(targetPosition.x, originalPosition.x - boundsX, originalPosition.x + boundsX);
+            targetPosition.y = height;
+            targetPosition.z = Mathf.Clamp(targetPosition.z, originalPosition.z - boundsZDown, originalPosition.z + boundsZUp);
+            
+            // Apply movement, rotation and FOV
+            transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * cameraPanSpeed);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * cameraPanSpeed);
+            mainCamera.fieldOfView = Mathf.Lerp(mainCamera.fieldOfView, targetFOV, Time.deltaTime * cameraPanSpeed);
 
             if (cameraMovement != Vector2.zero)
                 OnCameraPan?.Invoke(this, null);
@@ -147,31 +157,30 @@ namespace PSG.BattlefieldAndGuns.PSGCamera
 
         private void SetCameraZoom()
         {
-            var scroll = Input.GetAxis("Mouse ScrollWheel");
-            var previousFovScale = currentFovScale;
+            var lastZoom = currentZoom;
 
-            currentFovScale = Mathf.Clamp(currentFovScale - scroll * fovChangeSpeed * Time.deltaTime, minFovScale, maxFovScale);
+            currentZoom = Mathf.Clamp(currentZoom + Input.GetAxis("Mouse ScrollWheel") * fovChangeSpeed * Time.deltaTime, 0, 1);
 
-            currentBoundsXMin = boundsXMin - boundsXMin * currentFovScale;
-            currentBoundsXMax = boundsXMax - boundsXMax * currentFovScale;
-            currentBoundsZMin = boundsZMin - boundsZMin * currentFovScale;
-            currentBoundsZMax = boundsZMax - boundsZMax * currentFovScale;
-
-            if (previousFovScale != currentFovScale)
+            if(lastZoom != currentZoom)
             {
-                // Check if we are out of bounds
-                if (transform.position.x < currentBoundsXMin + originalPosition.x)
-                    cameraMovement.x = -transform.position.x + currentBoundsXMin + originalPosition.x;
-                else if (transform.position.x > currentBoundsXMax + originalPosition.x)
-                    cameraMovement.x = -transform.position.x + currentBoundsXMax + originalPosition.x;
-
-                if (transform.position.z < currentBoundsZMin + originalPosition.z)
-                    cameraMovement.y = -transform.position.z + currentBoundsZMin + originalPosition.z;
-                else if (transform.position.z > currentBoundsZMax + originalPosition.z)
-                    cameraMovement.y = -transform.position.z + currentBoundsZMax + originalPosition.z;
-
+                UpdateCameraZoom();
                 OnCameraZoom?.Invoke(this, null);
             }
+        }
+
+        /// <summary>
+        /// Y is position, X and Z are abs. bounds.
+        /// </summary>
+        private void UpdateCameraZoom()
+        {
+            boundsX = xPositionBounds.Evaluate(currentZoom);
+            boundsZUp = zUpPositionBounds.Evaluate(currentZoom);
+            boundsZDown = zDownPositionBounds.Evaluate(currentZoom);
+            height = originalPosition.y + heightCurve.Evaluate(currentZoom);
+
+
+            targetFOV = fovCurve.Evaluate(currentZoom);
+            targetRotation = Quaternion.Euler(originalRotation.eulerAngles + new Vector3(rotationCurve.Evaluate(currentZoom), 0, 0));
         }
 
         #endregion
