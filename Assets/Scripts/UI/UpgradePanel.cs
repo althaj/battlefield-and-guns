@@ -1,5 +1,7 @@
 using PSG.BattlefieldAndGuns.Core;
 using PSG.BattlefieldAndGuns.Managers;
+using PSG.BattlefieldAndGuns.PSGCamera;
+using PSG.BattlefieldAndGuns.Utility;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,6 +10,7 @@ using UnityEngine.UI;
 
 namespace PSG.BattlefieldAndGuns.UI
 {
+    [RequireComponent(typeof(LineRenderer))]
     public class UpgradePanel : MonoBehaviour
     {
         #region serialized variables
@@ -30,6 +33,12 @@ namespace PSG.BattlefieldAndGuns.UI
         private RectTransform rectTransform;
         private Camera mainCamera;
         private Vector3 anchorWorldPosition;
+
+        private CameraController cameraController;
+        private Vector2 panelSize;
+        private Vector3 targetPosition;
+
+        private LineRenderer lineRenderer;
 
         #endregion
 
@@ -82,16 +91,24 @@ namespace PSG.BattlefieldAndGuns.UI
 
             rectTransform = GetComponent<RectTransform>();
             mainCamera = Camera.main;
+            cameraController = mainCamera.GetComponent<CameraController>();
+
+            GetPanelSize();
+
+            lineRenderer = GetComponent<LineRenderer>();
+            lineRenderer.enabled = false;
         }
 
-        private void LateUpdate()
+        private void Update()
         {
-            if (tower != null)
-            {
-                rectTransform.position = mainCamera.WorldToScreenPoint(anchorWorldPosition);
-            }
+            UpdatePosition(false);
         }
 
+        /// <summary>
+        /// Show the upgrade panel. Fills the text / data of the tower, hooks to events, sets the panel active.
+        /// </summary>
+        /// <param name="tower"></param>
+        /// <param name="towerData"></param>
         public void Show(Tower tower, TowerData towerData)
         {
             this.tower = tower;
@@ -114,33 +131,101 @@ namespace PSG.BattlefieldAndGuns.UI
             towerManager.OnMoneyChanged += TowerManager_OnMoneyChanged;
             SetButtonEnabled();
 
-            anchorWorldPosition = tower.transform.position + Vector3.up * 2 + Vector3.forward * 2;
+            anchorWorldPosition = tower.transform.position + Vector3.up * 3;
 
             panel.SetActive(true);
+
+            // Get position, hook to camera events
+            GetPosition();
+            UpdatePosition(true);
+            cameraController.OnCameraPan += GetPosition;
+            cameraController.OnCameraZoom += GetPosition;
+
+            lineRenderer.enabled = true;
         }
 
+        /// <summary>
+        /// Upgrade the tower.
+        /// </summary>
         public void Upgrade()
         {
             tower?.LevelUp();
             GameUI.HideUpgradePanel();
         }
 
+        /// <summary>
+        /// Hide the panel.
+        /// </summary>
         public void Hide()
         {
             towerManager.OnMoneyChanged -= TowerManager_OnMoneyChanged;
             tower = null;
             towerData = null;
             panel.SetActive(false);
+
+            // Unhook to camera events
+            cameraController.OnCameraPan -= GetPosition;
+            cameraController.OnCameraZoom -= GetPosition;
+
+            lineRenderer.enabled = false;
         }
 
+        /// <summary>
+        /// Called whenever the amount of money is changed as to check the avaibility of the upgrade button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TowerManager_OnMoneyChanged(object sender, int e)
         {
             SetButtonEnabled();
         }
 
+        /// <summary>
+        /// Set the interactibility of the upgrade button.
+        /// </summary>
         private void SetButtonEnabled()
         {
             upgradeButton.interactable = CanUpgrade;
+        }
+
+        /// <summary>
+        /// Get the target position of the panel.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GetPosition(object sender = null, EventArgs e = null)
+        {
+            if (tower != null)
+            {
+                targetPosition = UIUtility.GetPanelPositionFromWorldPosition(mainCamera, anchorWorldPosition, panelSize);
+            }
+        }
+
+        /// <summary>
+        /// Gets the size of the panel.
+        /// </summary>
+        /// <remarks>Probably should be called whenever we change the screen size.</remarks>
+        private void GetPanelSize()
+        {
+            panelSize = new Vector2(rectTransform.rect.width , rectTransform.rect.height);
+        }
+
+        /// <summary>
+        /// Updates the position of the panel.
+        /// </summary>
+        /// <param name="instant">Whether the position is updated instantly or is lerped over a short period of time.</param>
+        private void UpdatePosition(bool instant)
+        {
+            if (tower != null)
+            {
+                if (instant)
+                    rectTransform.position = targetPosition;
+                else
+                    rectTransform.position = Vector3.Lerp(rectTransform.position, targetPosition, 0.04f);
+
+                lineRenderer.SetPosition(0, mainCamera.ScreenToWorldPoint(rectTransform.position));
+                lineRenderer.SetPosition(1, tower.transform.position);
+            }
         }
     }
 }
