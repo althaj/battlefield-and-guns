@@ -1,5 +1,6 @@
 using PSG.BattlefieldAndGuns.Core;
 using PSG.BattlefieldAndGuns.Managers;
+using PSG.BattlefieldAndGuns.Ui;
 using PSG.BattlefieldAndGuns.Utility;
 using System;
 using System.Collections;
@@ -27,10 +28,14 @@ namespace PSG.BattlefieldAndGuns.UI
         private GameObject buffCardPanel;
         [SerializeField]
         private GameObject buffSkipButton;
+        [SerializeField]
+        private GameObject buffListPanel;
 
         [Header("Prefabs")]
         [SerializeField]
         private GameObject buffCardPrefab;
+        [SerializeField]
+        private GameObject buffIconPrefab;
 
         [Header("Background")]
         [SerializeField]
@@ -96,11 +101,11 @@ namespace PSG.BattlefieldAndGuns.UI
         /// </summary>
         /// <param name="level">Level of the buffs.</param>
         /// <param name="isBuff">To show buffs or debuffs.</param>
-        public void ShowBuffPanel(bool isBuff)
+        public void ShowBuffPanel()
         {
             buffCardPanel.transform.DestroyAllChildren();
 
-            List<BuffData> buffs = buffManager.GetBuffChoices(3, isBuff);
+            List<BuffData> buffs = buffManager.GetBuffChoices(3, true);
             foreach(BuffData buffData in buffs)
             {
                 GameObject buffCardObject = Instantiate(buffCardPrefab);
@@ -108,7 +113,7 @@ namespace PSG.BattlefieldAndGuns.UI
                 buffCardObject.GetComponent<BuffCard>().Initialize(buffData);
             }
 
-            buffSkipButton.SetActive(isBuff);
+            buffSkipButton.SetActive(true);
             buffPanel.SetActive(true);
         }
 
@@ -135,6 +140,13 @@ namespace PSG.BattlefieldAndGuns.UI
         public void BackgroundPanel_OnClick()
         {
             HideUpgradePanel();
+        }
+
+        public void AddBuffIcon(BuffData buffData)
+        {
+            GameObject icon = Instantiate(buffIconPrefab, buffListPanel.transform);
+            icon.transform.name = buffData.Title;
+            icon.GetComponent<BuffIcon>().Initialize(buffData);
         }
     }
 

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: EnemyCountDebuff1
   m_EditorClassIdentifier: 
   Title: More of them
+  Icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   IsBuff: 0
   Level: 1
   Description: A bit more enemies spawn.

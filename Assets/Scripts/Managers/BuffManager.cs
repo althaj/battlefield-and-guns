@@ -1,4 +1,7 @@
 using PSG.BattlefieldAndGuns.Core;
+using PSG.BattlefieldAndGuns.UI;
+using PSG.BattlefieldAndGuns.Utility;
+using PSG.RNG;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,8 +19,7 @@ namespace PSG.BattlefieldAndGuns.Managers
         #region private variables
         private List<BuffData> appliedBuffs;
         private int level = 1;
-        private EnemyManager enemyManager;
-        private TowerManager towerManager;
+        private GameUI gameUI;
         #endregion
 
         #region properties
@@ -26,8 +28,7 @@ namespace PSG.BattlefieldAndGuns.Managers
 
         private void Start()
         {
-            enemyManager = FindObjectOfType<EnemyManager>();
-            towerManager = FindObjectOfType<TowerManager>();
+            gameUI = FindObjectOfType<GameUI>();
             appliedBuffs = new List<BuffData>();
         }
 
@@ -49,18 +50,18 @@ namespace PSG.BattlefieldAndGuns.Managers
         /// Apply a buff.
         /// </summary>
         /// <param name="buff">Buff to be applied.</param>
-        public void ApplyBuff(BuffData buff)
+        public BuffData ApplyBuff(BuffData buff)
         {
             if(buff == null || !availableBuffs.Contains(buff))
             {
                 Debug.LogError("ApplyBuff: could not find the buff!", buff);
-                return;
+                return null;
             }
 
             if(buff.Level > level)
             {
                 Debug.LogError("ApplyBuff: buff is of a higher level!", buff);
-                return;
+                return null;
             }
 
             appliedBuffs.Add(buff);
@@ -68,6 +69,18 @@ namespace PSG.BattlefieldAndGuns.Managers
 
             if (buff.IsBuff)
                 level++;
+
+            gameUI.AddBuffIcon(buff);
+
+            return buff;
+        }
+
+        public BuffData ApplyRandomDebuff()
+        {
+            var debufs = availableBuffs.Where(x => !x.IsBuff);
+            if (debufs.Count() > 0)
+                return ApplyBuff(RNGManager.Manager[Constants.ENEMY_MANAGER_RNG_TITLE].NextElement<BuffData>(debufs));
+            else return null;
         }
 
         /// <summary>

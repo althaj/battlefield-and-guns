@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: EnemySpeedBuff1
   m_EditorClassIdentifier: 
   Title: Weak engines
+  Icon: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
   IsBuff: 1
   Level: 1
   Description: Enemies are slower.

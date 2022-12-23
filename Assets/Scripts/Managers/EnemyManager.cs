@@ -179,8 +179,18 @@ namespace PSG.BattlefieldAndGuns.Managers
         {
             spawnedEnemies.Remove(enemy);
 
-            if (spawnedEnemies.Count == 0)
-                gameUI.ShowBuffPanel(currentWave % 5 == 0);
+            if (!waitingForWave && spawnedEnemies.Count == 0)
+            {
+                if (currentWave % 5 == 0)
+                {
+                    gameUI.ShowBuffPanel();
+                }
+                else
+                {
+                    buffManager.ApplyRandomDebuff();
+                    StartWaveCountdown();
+                }
+            }
 
             Destroy(enemy.gameObject);
         }

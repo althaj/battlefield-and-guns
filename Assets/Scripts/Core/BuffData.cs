@@ -21,6 +21,7 @@ namespace PSG.BattlefieldAndGuns.Core
         }
 
         public string Title;
+        public Sprite Icon;
         public bool IsBuff;
         public int Level;
         public string Description;
