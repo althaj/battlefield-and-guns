@@ -40,6 +40,8 @@ namespace PSG.BattlefieldAndGuns.UI
 
         private LineRenderer lineRenderer;
 
+        bool isInitialized = false;
+
         #endregion
 
         #region properties
@@ -79,13 +81,11 @@ namespace PSG.BattlefieldAndGuns.UI
 
         #endregion
 
-        private void Start()
+        private void Initialize()
         {
             texts = GetComponentsInChildren<Text>();
             panel = transform.GetChild(0).gameObject;
             upgradeButton = GetComponentInChildren<Button>();
-
-            panel.SetActive(false);
 
             towerManager = FindObjectOfType<TowerManager>();
 
@@ -97,6 +97,8 @@ namespace PSG.BattlefieldAndGuns.UI
 
             lineRenderer = GetComponent<LineRenderer>();
             lineRenderer.enabled = false;
+
+            isInitialized = true;
         }
 
         private void Update()
@@ -111,6 +113,9 @@ namespace PSG.BattlefieldAndGuns.UI
         /// <param name="towerData"></param>
         public void Show(Tower tower, TowerData towerData)
         {
+            if (!isInitialized)
+                Initialize();
+
             this.tower = tower;
             this.towerData = towerData;
 
@@ -128,12 +133,12 @@ namespace PSG.BattlefieldAndGuns.UI
                 Debug.LogError(ex);
             }
 
+            gameObject.SetActive(true);
+
             towerManager.OnMoneyChanged += TowerManager_OnMoneyChanged;
             SetButtonEnabled();
 
             anchorWorldPosition = tower.transform.position + Vector3.up * 3;
-
-            panel.SetActive(true);
 
             // Get position, hook to camera events
             GetPosition();
@@ -161,7 +166,7 @@ namespace PSG.BattlefieldAndGuns.UI
             towerManager.OnMoneyChanged -= TowerManager_OnMoneyChanged;
             tower = null;
             towerData = null;
-            panel.SetActive(false);
+            gameObject.SetActive(false);
 
             // Unhook to camera events
             cameraController.OnCameraPan -= GetPosition;

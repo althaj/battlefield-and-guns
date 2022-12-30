@@ -1,9 +1,7 @@
 using PSG.BattlefieldAndGuns.Core;
 using PSG.BattlefieldAndGuns.Managers;
-using PSG.BattlefieldAndGuns.Ui;
 using PSG.BattlefieldAndGuns.Utility;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,7 +10,7 @@ namespace PSG.BattlefieldAndGuns.UI
 {
     public class GameUI : MonoBehaviour
     {
-        #region Serialized variables
+        #region serialized variables
 
         [SerializeField]
         private Text moneyText;
@@ -40,12 +38,18 @@ namespace PSG.BattlefieldAndGuns.UI
         [Header("Background")]
         [SerializeField]
         private GameObject backgroundPanel;
+
+        [Header("Popups"), SerializeField]
+        private UpgradePanel upgradePopup;
+
+        [SerializeField]
+        private ModularPopup modularPopup;
+
         #endregion
 
         #region private variables
         private TowerManager towerManager;
         private BuffManager buffManager;
-        private UpgradePanel upgradePanel;
         #endregion
 
         #region properties
@@ -60,7 +64,6 @@ namespace PSG.BattlefieldAndGuns.UI
             TowerManager_OnMoneyChanged(this, towerManager.Money);
 
             buffManager = FindObjectOfType<BuffManager>();
-            upgradePanel = FindObjectOfType<UpgradePanel>();
 
             buffPanel.SetActive(false);
             backgroundPanel.SetActive(false);
@@ -127,13 +130,13 @@ namespace PSG.BattlefieldAndGuns.UI
 
         public void ShowUpgradePanel(Tower tower, TowerData towerData)
         {
-            upgradePanel.Show(tower, towerData);
+            upgradePopup.Show(tower, towerData);
             backgroundPanel.SetActive(true);
         }
 
         public void HideUpgradePanel()
         {
-            upgradePanel.Hide();
+            upgradePopup.Hide();
             backgroundPanel.SetActive(false);
         }
 
@@ -146,7 +149,22 @@ namespace PSG.BattlefieldAndGuns.UI
         {
             GameObject icon = Instantiate(buffIconPrefab, buffListPanel.transform);
             icon.transform.name = buffData.Title;
-            icon.GetComponent<BuffIcon>().Initialize(buffData);
+            icon.GetComponent<BuffIcon>().Initialize(buffData, this);
+        }
+
+        /// Show a modular dialog.
+        /// </summary>
+        /// <param name="title">Title of the dialog.</param>
+        /// <param name="text">Text of the dialog.</param>
+        /// <param name="position">Position of the dialog in screen space. Popup is in the center of the screen if null.</param>
+        public void ShowPopup(string title, string text, Vector2? position = null)
+        {
+            modularPopup.ShowPopup(title, text, position);
+        }
+
+        public void HidePopup()
+        {
+            modularPopup.HidePopup();
         }
     }
 
