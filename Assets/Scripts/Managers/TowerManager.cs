@@ -106,8 +106,8 @@ namespace PSG.BattlefieldAndGuns.Managers
 
             // Add range indicator.
             float range = targeter.Range * 2;
-            GameObject rangeObject = Instantiate(rangeIndicatorPrefab, placeholderObject.transform.position, Quaternion.identity);
-            rangeObject.transform.localScale = new Vector3(range, range, range);
+            GameObject rangeObject = Instantiate(rangeIndicatorPrefab, placeholderObject.transform.position + Vector3.up * 1f, Quaternion.identity);
+            rangeObject.transform.localScale = new Vector3(range, 10, range);
             rangeObject.transform.parent = placeholderObject.transform;
 
             placeholderObject.transform.parent = placeholderParent;
