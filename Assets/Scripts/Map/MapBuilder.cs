@@ -125,8 +125,6 @@ namespace PSG.BattlefieldAndGuns.Map
             mapParent.GetComponent<NavMeshSurface>().BuildNavMesh();
 
             GetPath();
-
-            FindObjectOfType<TowerManager>().GetTowerSpaces();
         }
 
         private void GetPath()

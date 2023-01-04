@@ -19,8 +19,6 @@ namespace PSG.BattlefieldAndGuns.Core
 
         #region private variables
         private float currentBuildTime;
-        private float buildStartHeight;
-        private float buildEndHeight;
 
         private Animator animator;
         #endregion
@@ -32,6 +30,8 @@ namespace PSG.BattlefieldAndGuns.Core
         public int Cost { get => towerData.GetCost(level); }
         public float BuildTime { get => towerData.GetBuildTime(level); }
         public Weapon[] Weapons { get; set; }
+
+        public TowerData TowerData { get => towerData; }
         #endregion
 
         private void Awake()
@@ -41,9 +41,6 @@ namespace PSG.BattlefieldAndGuns.Core
             {
                 weapon.Initialize(towerData, level);
             }
-
-            buildEndHeight = transform.position.y;
-            buildStartHeight = buildEndHeight - 3;
 
             animator = GetComponent<Animator>();
             BeginBuilding();
@@ -55,7 +52,6 @@ namespace PSG.BattlefieldAndGuns.Core
             {
                 currentBuildTime -= Time.deltaTime;
                 float delta = 1 - currentBuildTime / BuildTime;
-                //transform.position = new Vector3(transform.position.x, Mathf.Lerp(buildStartHeight, buildEndHeight, delta), transform.position.z);
 
                 if(currentBuildTime <= 0)
                 {
@@ -94,11 +90,11 @@ namespace PSG.BattlefieldAndGuns.Core
         /// </summary>
         private void EndBuilding()
         {
-            //transform.position = new Vector3(transform.position.x, buildEndHeight, transform.position.z);
             for (int i = 0; i < Weapons.Length; i++)
             {
                 Weapons[i].enabled = true;
             }
         }
+
     }
 }

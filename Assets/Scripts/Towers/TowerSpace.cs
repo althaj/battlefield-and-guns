@@ -1,3 +1,5 @@
+using PSG.BattlefieldAndGuns.Core;
+using PSG.BattlefieldAndGuns.UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,6 +31,12 @@ namespace PSG.BattlefieldAndGuns.Towers
         {
             if (animator != null)
                 animator.SetTrigger("Open");
+        }
+
+        private void OnMouseUp()
+        {
+            if(isFree)
+                FindObjectOfType<GameUI>().ShowBuildPopup(this);
         }
     }
 }

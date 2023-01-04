@@ -11,7 +11,7 @@ using UnityEngine.UI;
 namespace PSG.BattlefieldAndGuns.UI
 {
     [RequireComponent(typeof(LineRenderer))]
-    public class UpgradePanel : MonoBehaviour
+    public class UpgradePopup : MonoBehaviour
     {
         #region serialized variables
 
@@ -81,6 +81,15 @@ namespace PSG.BattlefieldAndGuns.UI
 
         #endregion
 
+        private void FixedUpdate()
+        {
+            if (tower != null)
+            {
+                targetPosition = UIUtility.GetPanelPositionFromWorldPosition(mainCamera, anchorWorldPosition, panelSize);
+                UpdatePosition(false);
+            }
+        }
+
         private void Initialize()
         {
             texts = GetComponentsInChildren<Text>();
@@ -141,12 +150,11 @@ namespace PSG.BattlefieldAndGuns.UI
             anchorWorldPosition = tower.transform.position + Vector3.up * 3;
 
             // Get position, hook to camera events
-            GetPosition();
             UpdatePosition(true);
-            cameraController.OnCameraPan += GetPosition;
-            cameraController.OnCameraZoom += GetPosition;
 
             lineRenderer.enabled = true;
+
+            towerManager.ShowRangeIndicator(tower.transform.position, towerData.GetRange(tower.Level + 1));
         }
 
         /// <summary>
@@ -163,16 +171,17 @@ namespace PSG.BattlefieldAndGuns.UI
         /// </summary>
         public void Hide()
         {
-            towerManager.OnMoneyChanged -= TowerManager_OnMoneyChanged;
-            tower = null;
-            towerData = null;
-            gameObject.SetActive(false);
+            if (gameObject.activeSelf)
+            {
+                towerManager.OnMoneyChanged -= TowerManager_OnMoneyChanged;
+                tower = null;
+                towerData = null;
+                gameObject.SetActive(false);
 
-            // Unhook to camera events
-            cameraController.OnCameraPan -= GetPosition;
-            cameraController.OnCameraZoom -= GetPosition;
+                lineRenderer.enabled = false;
 
-            lineRenderer.enabled = false;
+                towerManager.HideRangeIndicator();
+            }
         }
 
         /// <summary>
@@ -194,25 +203,12 @@ namespace PSG.BattlefieldAndGuns.UI
         }
 
         /// <summary>
-        /// Get the target position of the panel.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void GetPosition(object sender = null, EventArgs e = null)
-        {
-            if (tower != null)
-            {
-                targetPosition = UIUtility.GetPanelPositionFromWorldPosition(mainCamera, anchorWorldPosition, panelSize);
-            }
-        }
-
-        /// <summary>
         /// Gets the size of the panel.
         /// </summary>
         /// <remarks>Probably should be called whenever we change the screen size.</remarks>
         private void GetPanelSize()
         {
-            panelSize = new Vector2(rectTransform.rect.width , rectTransform.rect.height);
+            panelSize = UIUtility.GetPanelSize(rectTransform);
         }
 
         /// <summary>

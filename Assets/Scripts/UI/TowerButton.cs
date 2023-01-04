@@ -1,27 +1,27 @@
+using PSG.BattlefieldAndGuns.Core;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace PSG.BattlefieldAndGuns.UI
 {
     public class TowerButton : MonoBehaviour
     {
-        [SerializeField]
         private int index;
 
-        private GameUI gameUI;
+        private BuildPopup buildPopup;
 
-        private void Start()
+        public void Initialize(string title, int index, BuildPopup buildPopup)
         {
-            gameUI = FindObjectOfType<GameUI>();
+            transform.GetChild(0).GetComponent<Text>().text = title;
+            this.index = index;
+            this.buildPopup = buildPopup;
         }
 
-        /// <summary>
-        /// Begin building a tower.
-        /// </summary>
         public void BuildTower()
         {
-            gameUI.BeginPlacingTower(index);
+            buildPopup.SelectTower(index);
         }
     } 
 }

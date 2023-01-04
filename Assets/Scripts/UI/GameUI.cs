@@ -1,5 +1,6 @@
 using PSG.BattlefieldAndGuns.Core;
 using PSG.BattlefieldAndGuns.Managers;
+using PSG.BattlefieldAndGuns.Towers;
 using PSG.BattlefieldAndGuns.Utility;
 using System;
 using System.Collections.Generic;
@@ -40,7 +41,9 @@ namespace PSG.BattlefieldAndGuns.UI
         private GameObject backgroundPanel;
 
         [Header("Popups"), SerializeField]
-        private UpgradePanel upgradePopup;
+        private UpgradePopup upgradePopup;
+        [SerializeField]
+        private BuildPopup buildPopup;
 
         [SerializeField]
         private ModularPopup modularPopup;
@@ -73,6 +76,12 @@ namespace PSG.BattlefieldAndGuns.UI
             maxHealthText.text = health.StartingHealth.ToString();
             health.OnHealthChanged += Health_OnHealthChanged;
             health.OnGameOver += Health_OnGameOver;
+
+            // Add towers to the build popup
+            foreach(GameObject tower in towerManager.Towers)
+            {
+                buildPopup.AddTowerButton(tower);
+            }
         }
 
         private void Health_OnGameOver(object sender, EventArgs e)
@@ -93,10 +102,10 @@ namespace PSG.BattlefieldAndGuns.UI
         /// <summary>
         /// Begin placing a tower, showing the placeholder.
         /// </summary>
-        /// <param name="index"></param>
-        internal void BeginPlacingTower(int index)
+        /// <param name="space">TowerSpace to start building on.</param>
+        internal void BeginPlacingTower(TowerSpace space)
         {
-            towerManager.BeginPlacing(index);
+            towerManager.BeginPlacing();
         }
 
         /// <summary>
@@ -143,6 +152,7 @@ namespace PSG.BattlefieldAndGuns.UI
         public void BackgroundPanel_OnClick()
         {
             HideUpgradePanel();
+            HideBuildPopup();
         }
 
         public void AddBuffIcon(BuffData buffData)
@@ -165,6 +175,18 @@ namespace PSG.BattlefieldAndGuns.UI
         public void HidePopup()
         {
             modularPopup.HidePopup();
+        }
+
+        public void ShowBuildPopup(TowerSpace towerSpace)
+        {
+            buildPopup.Show(towerSpace);
+            backgroundPanel.SetActive(true);
+        }
+
+        public void HideBuildPopup()
+        {
+            buildPopup.Hide();
+            backgroundPanel.SetActive(false);
         }
     }
 

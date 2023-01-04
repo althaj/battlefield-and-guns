@@ -27,5 +27,15 @@ namespace PSG.BattlefieldAndGuns.Utility
 
             return result;
         }
+
+        /// <summary>
+        /// Return the size of a UI panel.
+        /// </summary>
+        /// <param name="panel"></param>
+        /// <returns></returns>
+        public static Vector2 GetPanelSize(RectTransform panel)
+        {
+            return new Vector2(panel.rect.width, panel.rect.height);
+        }
     }
 }
