@@ -11,6 +11,7 @@ namespace PSG.BattlefieldAndGuns.Towers
         #region serialized fields
         [SerializeField]
         private Transform weaponEnd;
+        [SerializeField] ProjectileType projectileType;
         #endregion
 
         private PoolManager poolManager;
@@ -28,9 +29,10 @@ namespace PSG.BattlefieldAndGuns.Towers
             if (targets.Length > 0)
             {
                 base.Fire();
-                GameObject projectileObject = poolManager.GetBullet();
+                GameObject projectileObject = poolManager.GetProjectile(projectileType);
                 projectileObject.transform.position = weaponEnd.position;
-                projectileObject.GetComponent<Projectile>().Initialize(targets[0], Damage);
+                projectileObject.transform.rotation = weaponEnd.rotation;
+                projectileObject.GetComponent<Projectile>().Initialize(targets[0], Damage, projectileType);
             }
         }
     } 

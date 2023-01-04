@@ -269,6 +269,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8343906554610196516}
   - component: {fileID: 8343906554610196520}
+  - component: {fileID: 4754889551234262561}
   m_Layer: 0
   m_Name: Car
   m_TagString: Untagged
@@ -312,6 +313,19 @@ MonoBehaviour:
   strength: 2
   reward: 2
   damage: 1
+--- !u!114 &4754889551234262561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8343906554610196527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c2c2a39c9b51fd449582536ab20bd48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosionType: 1
 --- !u!1 &8343906554618020744
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,11 +10,18 @@ namespace PSG.BattlefieldAndGuns.Towers
     {
         private Enemy target;
         private int damage;
+        private ProjectileType projectileType;
         private bool hasTarget = false;
         private PoolManager poolManager;
 
+        private Vector3? lastTargetPosition;
+
         [SerializeField]
         private float speed;
+        [SerializeField]
+        private bool isInstant = true;
+        [SerializeField]
+        private float angularSpeed;
 
         private void Start()
         {
@@ -28,22 +35,25 @@ namespace PSG.BattlefieldAndGuns.Towers
             {
                 if (target != null)
                 {
+                    lastTargetPosition = target.transform.position;
+                }
 
-                    float currentSpeed = speed * Time.deltaTime;
+                float currentSpeed = speed * Time.deltaTime;
 
-                    if (Vector3.Distance(transform.position, target.transform.position) < currentSpeed)
-                    {
-                        DestroyProjectile();
-                    }
-                    else
-                    {
-                        transform.rotation = Quaternion.LookRotation(target.transform.position - transform.position);
-                        transform.Translate(Vector3.forward * currentSpeed);
-                    }
+                if (!lastTargetPosition.HasValue || Vector3.Distance(transform.position, lastTargetPosition.Value) < currentSpeed)
+                {
+                    DestroyProjectile();
                 }
                 else
                 {
-                    DestroyProjectile();
+                    Quaternion targetRotation = Quaternion.LookRotation(lastTargetPosition.Value - transform.position);
+
+                    if (isInstant || Vector3.Distance(transform.position, lastTargetPosition.Value) < 1f)
+                        transform.rotation = targetRotation;
+                    else
+                        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, angularSpeed * Time.deltaTime);
+
+                    transform.Translate(Vector3.forward * currentSpeed);
                 }
             }
         }
@@ -52,10 +62,11 @@ namespace PSG.BattlefieldAndGuns.Towers
         /// Set the target of the projectile.
         /// </summary>
         /// <param name="enemy"></param>
-        public void Initialize(Enemy enemy, int damage)
+        public void Initialize(Enemy enemy, int damage, ProjectileType projectileType)
         {
             target = enemy;
             this.damage = damage;
+            this.projectileType = projectileType;
             hasTarget = true;
         }
 
@@ -68,7 +79,12 @@ namespace PSG.BattlefieldAndGuns.Towers
             {
                 target.DealDamage(damage);
             }
-            poolManager.ReleaseBullet(gameObject);
+
+            target = null;
+            hasTarget = false;
+            lastTargetPosition = null;
+
+            poolManager.ReleaseProjectile(projectileType, gameObject);
         }
     }
 }

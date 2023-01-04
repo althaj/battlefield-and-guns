@@ -556,6 +556,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 3897121399012586762, guid: 7c392f540ae92544d9305af8feffe430, type: 3}
+  rocketPrefab: {fileID: 1790707731915609216, guid: 838b94070ef51034c87f0dcc994fd6a3, type: 3}
+  rocketExplosionPrefab: {fileID: 8040604465736732418, guid: cde86ca2fb5207b41942800826020a93, type: 3}
+  smallWehicleExplosionPrefab: {fileID: 8040604465736732418, guid: 7058c3c2ad4a1274db041765f24106c9, type: 3}
 --- !u!1 &211747334
 GameObject:
   m_ObjectHideFlags: 0
@@ -1797,7 +1800,7 @@ MonoBehaviour:
   startingMoney: 50
   towerPrefabs:
   - {fileID: 1194546600361141051, guid: 1f665af85b8e2a7468211b3ba1861bee, type: 3}
-  - {fileID: 1319443722270894407, guid: b7297c1e97768f74a967bc0463994ee6, type: 3}
+  - {fileID: 3262233068700176713, guid: 8d7741daaf263b4469389ef9acc5a7d1, type: 3}
   - {fileID: 1319443722270894407, guid: 01d951bc1cdce954c994095070d2eede, type: 3}
   rangeIndicatorPrefab: {fileID: 8906205671029032, guid: 9527faad2aafb4c4aa9a8375232433f9, type: 3}
   placeholderMaterial: {fileID: 2100000, guid: 9b8a5f1023e09b943b14023bae8b4760, type: 2}
