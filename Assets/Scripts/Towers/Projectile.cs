@@ -8,24 +8,28 @@ namespace PSG.BattlefieldAndGuns.Towers
 {
     public class Projectile : MonoBehaviour
     {
+        [SerializeField]
+        private float speed;
+        [SerializeField]
+        private bool instantRotation = true;
+        [SerializeField]
+
+        private float angularSpeed;
         private Enemy target;
-        private int damage;
+        protected int damage;
         private ProjectileType projectileType;
         private bool hasTarget = false;
         private PoolManager poolManager;
 
         private Vector3? lastTargetPosition;
 
-        [SerializeField]
-        private float speed;
-        [SerializeField]
-        private bool isInstant = true;
-        [SerializeField]
-        private float angularSpeed;
+        protected EnemyManager enemyManager;
 
         private void Start()
         {
             poolManager = FindObjectOfType<PoolManager>();
+
+            enemyManager = FindObjectOfType<EnemyManager>();
         }
 
         // Update is called once per frame
@@ -48,7 +52,7 @@ namespace PSG.BattlefieldAndGuns.Towers
                 {
                     Quaternion targetRotation = Quaternion.LookRotation(lastTargetPosition.Value - transform.position);
 
-                    if (isInstant || Vector3.Distance(transform.position, lastTargetPosition.Value) < 1f)
+                    if (instantRotation || Vector3.Distance(transform.position, lastTargetPosition.Value) < 1f)
                         transform.rotation = targetRotation;
                     else
                         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, angularSpeed * Time.deltaTime);
@@ -75,16 +79,21 @@ namespace PSG.BattlefieldAndGuns.Towers
         /// </summary>
         private void DestroyProjectile()
         {
-            if (target != null)
-            {
-                target.DealDamage(damage);
-            }
+            DealDamage();
 
             target = null;
             hasTarget = false;
             lastTargetPosition = null;
 
             poolManager.ReleaseProjectile(projectileType, gameObject);
+        }
+
+        protected virtual void DealDamage()
+        {
+            if (target != null)
+            {
+                target.DealDamage(damage);
+            }
         }
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace PSG.BattlefieldAndGuns.Towers
 {
-    public class ProjectileWeapon : BulletWeapon
+    public class ProjectileWeapon : Weapon
     {
         #region serialized fields
         [SerializeField]
@@ -34,6 +34,15 @@ namespace PSG.BattlefieldAndGuns.Towers
                 projectileObject.transform.rotation = weaponEnd.rotation;
                 projectileObject.GetComponent<Projectile>().Initialize(targets[0], Damage, projectileType);
             }
+        }
+
+        public override bool HasValidTargets()
+        {
+            targets = targeter.GetTargets();
+            if (targets.Length > 0)
+                targets = new Enemy[] { targets[0] };
+            else targets = new Enemy[0];
+            return targets.Length > 0;
         }
     } 
 }

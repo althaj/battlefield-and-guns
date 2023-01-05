@@ -19,7 +19,7 @@ MonoBehaviour:
   BuildTimeScaling: 2
   InitialFireRate: 1.5
   FireRateScaling: 0.9
-  InitialDamage: 6
+  InitialDamage: 4
   DamageScaling: 1.4
   InitialRange: 7
   RangeScaling: 1.5

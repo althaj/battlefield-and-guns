@@ -213,5 +213,10 @@ namespace PSG.BattlefieldAndGuns.Managers
             else
                 return null;
         }
+
+        public IEnumerable<Enemy> GetEnemiesInRange(Vector3 position, float range)
+        {
+            return spawnedEnemies.Where(x => Vector3.Distance(position, x.transform.position) <= range);
+        }
     } 
 }
