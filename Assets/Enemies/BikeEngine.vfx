@@ -17,10 +17,10 @@ MonoBehaviour:
   categories: []
   uiBounds:
     serializedVersion: 2
-    x: -269
-    y: -448
-    width: 1636
-    height: 1849
+    x: 314
+    y: -190
+    width: 1053
+    height: 1626
 --- !u!114 &114350483966674976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -473,7 +473,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614583}
   - {fileID: 8926484042661614585}
   dataType: 0
-  capacity: 50
+  capacity: 5
   stripCapacity: 16
   particlePerStripCount: 16
   needsComputeBounds: 0
@@ -943,7 +943,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Vector2, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":10.0,"y":20.0}'
+      m_SerializableObject: '{"x":1.0,"y":3.0}'
     m_Space: 2147483647
   m_Property:
     name: Rate
@@ -1175,7 +1175,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEditor.VFX.Vector, Unity.VisualEffectGraph.Editor,
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"vector":{"x":0.0,"y":0.05000000074505806,"z":0.0}}'
+      m_SerializableObject: '{"vector":{"x":0.0,"y":0.004999999888241291,"z":0.0}}'
     m_Space: 0
   m_Property:
     name: A
@@ -1345,7 +1345,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEditor.VFX.Vector, Unity.VisualEffectGraph.Editor,
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"vector":{"x":0.0,"y":0.10000000149011612,"z":0.0}}'
+      m_SerializableObject: '{"vector":{"x":0.0,"y":0.009999999776482582,"z":0.0}}'
     m_Space: 0
   m_Property:
     name: B
@@ -1877,7 +1877,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Vector2, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":3.0,"y":5.0}'
+      m_SerializableObject: '{"x":1.0,"y":2.0}'
     m_Space: 2147483647
   m_Property:
     name: Rate
@@ -2417,7 +2417,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614678}
   - {fileID: 8926484042661614670}
   dataType: 0
-  capacity: 50
+  capacity: 4
   stripCapacity: 16
   particlePerStripCount: 16
   needsComputeBounds: 0
@@ -2575,7 +2575,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEditor.VFX.Vector, Unity.VisualEffectGraph.Editor,
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"vector":{"x":0.0,"y":0.009999999776482582,"z":0.0}}'
+      m_SerializableObject: '{"vector":{"x":0.0,"y":0.0010000000474974514,"z":0.0}}'
     m_Space: 0
   m_Property:
     name: A
@@ -2745,7 +2745,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEditor.VFX.Vector, Unity.VisualEffectGraph.Editor,
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"vector":{"x":0.0,"y":0.03999999910593033,"z":0.0}}'
+      m_SerializableObject: '{"vector":{"x":0.0,"y":0.004000000189989805,"z":0.0}}'
     m_Space: 0
   m_Property:
     name: B

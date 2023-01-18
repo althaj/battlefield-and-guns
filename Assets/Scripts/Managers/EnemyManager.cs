@@ -31,7 +31,8 @@ namespace PSG.BattlefieldAndGuns.Managers
         #endregion
 
         #region private variables
-        private int currentWave = 0;
+        // TODO currentWave = 0
+        private int currentWave = 7;
         private int currentWaveStrength;
         private List<Enemy> spawnedEnemies;
         private float currentTimeBeforeNextWave = 0;
@@ -96,13 +97,13 @@ namespace PSG.BattlefieldAndGuns.Managers
             waitingForWave = false;
             currentWave++;
             currentWaveStrength = initialWaveStrength * (int)Mathf.Pow(waveStrengthScaling, currentWave);
-            SpawnEnemies();
+            StartCoroutine(SpawnEnemies());
         }
 
         /// <summary>
         /// Spawn enemies of the current wave.
         /// </summary>
-        private void SpawnEnemies()
+        private IEnumerator SpawnEnemies()
         {
             Dictionary<Enemy, GameObject> enemyComponents = new Dictionary<Enemy, GameObject>();
 
@@ -112,6 +113,7 @@ namespace PSG.BattlefieldAndGuns.Managers
             waveStrengthMultiplier = buffManager.GetAppliedMultiplier(BuffData.BuffType.WaveStrength);
 
             int remainingStrength = (int)(currentWaveStrength * waveStrengthMultiplier);
+
             WaveType waveType = RNGManager.Manager[Constants.ENEMY_MANAGER_RNG_TITLE].NextEnumValue<WaveType>();
 
             switch (waveType)
@@ -127,6 +129,8 @@ namespace PSG.BattlefieldAndGuns.Managers
                     break;
             }
 
+            int spawnedUnits = 0;
+
             while (remainingStrength > 0)
             {
                 if(waveType == WaveType.Random)
@@ -138,6 +142,9 @@ namespace PSG.BattlefieldAndGuns.Managers
                 GameObject enemyPrefab = enemyComponents[selectedEnemy];
                 SpawnEnemy(enemyPrefab);
                 remainingStrength -= selectedEnemy.Strength;
+
+                if (spawnedEnemies.Count % 25 == 0)
+                    yield return new WaitForSeconds(7);
             }
         }
 

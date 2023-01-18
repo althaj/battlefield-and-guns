@@ -64,6 +64,8 @@ namespace PSG.BattlefieldAndGuns.Core
         private int reward;
         [SerializeField]
         private int damage = 1;
+
+        [SerializeField] private ExplosionType explosionType;
         #endregion
 
         #region Private variables
@@ -93,11 +95,19 @@ namespace PSG.BattlefieldAndGuns.Core
 
             health = maxHealth;
             OnHealthChanged?.Invoke(this, health);
+
+            StartCoroutine(UpdatePath());
         }
 
         private void Update()
         {
-            if (Path != null && Path.Length > currentPathIndex)
+            Quaternion lookOnAngle = Quaternion.LookRotation(Path[currentPathIndex] - transform.position);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookOnAngle, angularSpeed * Time.deltaTime);
+        }
+
+        private IEnumerator UpdatePath()
+        {
+            while (Path != null && Path.Length > currentPathIndex)
             {
                 if (Vector3.Distance(transform.position, Path[currentPathIndex]) < 0.5f)
                 {
@@ -113,8 +123,7 @@ namespace PSG.BattlefieldAndGuns.Core
                     }
                 }
 
-                Quaternion lookOnAngle = Quaternion.LookRotation(Path[currentPathIndex] - transform.position);
-                transform.rotation = Quaternion.Slerp(transform.rotation, lookOnAngle, angularSpeed * Time.deltaTime);
+                yield return new WaitForSeconds(0.5f);
             }
         }
 
@@ -139,8 +148,11 @@ namespace PSG.BattlefieldAndGuns.Core
         /// </summary>
         public void Die()
         {
+            PoolManager.Instance.CreateExplosion(explosionType, transform.position);
+
             if (this.EnemyManager != null)
                 this.EnemyManager.KillEnemy(this);
+
         }
 
         /// <summary>

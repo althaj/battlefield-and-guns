@@ -31,13 +31,14 @@ namespace PSG.BattlefieldAndGuns.UI
 
         private void LateUpdate()
         {
-            transform.rotation = cameraTransform.rotation;
+            if(healthBar != null)
+                healthBar.transform.rotation = cameraTransform.rotation;
         }
 
         private void OnEnable()
         {
-            enemy = this.GetComponentInParents<Enemy>();
-            healthBar = GetComponent<Slider>();
+            enemy = this.GetComponent<Enemy>();
+            healthBar = GetComponentInChildren<Slider>();
 
             if (healthBar == null)
             {
@@ -57,12 +58,16 @@ namespace PSG.BattlefieldAndGuns.UI
 
         private void OnDisable()
         {
-            if(enemy != null)
+            if (enemy != null)
                 enemy.OnHealthChanged -= Enemy_OnHealthChanged;
         }
 
         private void Enemy_OnHealthChanged(object sender, int e)
         {
+            // First hit
+            if (enemy != null && e == enemy.MaxHealth)
+                healthBar.gameObject.SetActive(true);
+
             healthBar.value = e;
         }
     }
