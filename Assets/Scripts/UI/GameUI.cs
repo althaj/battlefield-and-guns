@@ -9,6 +9,22 @@ using UnityEngine.UI;
 
 namespace PSG.BattlefieldAndGuns.UI
 {
+    public enum MessageDisplayDuration
+    {
+        /// <summary>
+        /// Manual duration, you have to call HideMessage to hide it.
+        /// </summary>
+        Manual,
+        /// <summary>
+        /// Duration of 5 seconds.
+        /// </summary>
+        Short,
+        /// <summary>
+        /// Duration of 8 seconds.
+        /// </summary>
+        Long
+    }
+
     public class GameUI : MonoBehaviour
     {
         #region serialized variables
@@ -48,6 +64,9 @@ namespace PSG.BattlefieldAndGuns.UI
         [SerializeField]
         private ModularPopup modularPopup;
 
+        [SerializeField]
+        private MessagePopup messagePopup;
+
         #endregion
 
         #region private variables
@@ -78,7 +97,7 @@ namespace PSG.BattlefieldAndGuns.UI
             health.OnGameOver += Health_OnGameOver;
 
             // Add towers to the build popup
-            foreach(GameObject tower in towerManager.Towers)
+            foreach (GameObject tower in towerManager.Towers)
             {
                 buildPopup.AddTowerButton(tower);
             }
@@ -118,7 +137,7 @@ namespace PSG.BattlefieldAndGuns.UI
             buffCardPanel.transform.DestroyAllChildren();
 
             List<BuffData> buffs = buffManager.GetBuffChoices(3, true);
-            foreach(BuffData buffData in buffs)
+            foreach (BuffData buffData in buffs)
             {
                 GameObject buffCardObject = Instantiate(buffCardPrefab);
                 buffCardObject.transform.SetParent(buffCardPanel.transform, false);
@@ -187,6 +206,25 @@ namespace PSG.BattlefieldAndGuns.UI
         {
             buildPopup.Hide();
             backgroundPanel.SetActive(false);
+        }
+
+        /// <summary>
+        /// Displays a message in the message popup.
+        /// </summary>
+        /// <param name="title">Title of the message.</param>
+        /// <param name="subtitle">Subtitle of the message.</param>
+        /// <param name="displayDuration">For how long the message should stay displayed.</param>
+        public void ShowMessage(string title, string subtitle = null, MessageDisplayDuration displayDuration = MessageDisplayDuration.Short)
+        {
+            messagePopup.ShowMessage(title, subtitle, displayDuration);
+        }
+
+        /// <summary>
+        /// Hides the message popup.
+        /// </summary>
+        public void HideMessage()
+        {
+            messagePopup.HideMessage();
         }
     }
 

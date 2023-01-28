@@ -72,6 +72,8 @@ namespace PSG.BattlefieldAndGuns.Managers
 
             gameUI.AddBuffIcon(buff);
 
+            gameUI.ShowMessage(buff.Title, buff.Description, MessageDisplayDuration.Short);
+
             return buff;
         }
 
