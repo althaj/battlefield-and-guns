@@ -48,6 +48,7 @@ GameObject:
   - component: {fileID: 8343906554610196516}
   - component: {fileID: 8343906554610196520}
   - component: {fileID: 6427566995008683660}
+  - component: {fileID: 2407238167754083570}
   m_Layer: 0
   m_Name: Bike
   m_TagString: Untagged
@@ -104,6 +105,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86dccb63a0886164fb40092600387fe4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!205 &2407238167754083570
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8343906554610196527}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0.000000011175871, y: 0.022360561, z: 0.00092834234}
+  m_Size: 0.1379886
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.23718135
+    fadeTransitionWidth: 0.123
+    renderers:
+    - renderer: {fileID: 4502363526250609354}
+  - screenRelativeHeight: 0.01825322
+    fadeTransitionWidth: 0.118
+    renderers:
+    - renderer: {fileID: 2289451727311929966}
+  m_Enabled: 1
 --- !u!1 &8343906554618020744
 GameObject:
   m_ObjectHideFlags: 0
@@ -516,6 +540,16 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 3026915126468731180}
   m_SourcePrefab: {fileID: 100100000, guid: ebe4eeb77965f7149ad8f90a4c82c9ea, type: 3}
+--- !u!137 &2289451727311929966 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6173259507218261800, guid: ebe4eeb77965f7149ad8f90a4c82c9ea, type: 3}
+  m_PrefabInstance: {fileID: 5363249391041324358}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &4502363526250609354 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -858624976556744820, guid: ebe4eeb77965f7149ad8f90a4c82c9ea, type: 3}
+  m_PrefabInstance: {fileID: 5363249391041324358}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5093429574269933591 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: ebe4eeb77965f7149ad8f90a4c82c9ea, type: 3}

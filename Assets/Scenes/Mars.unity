@@ -498,8 +498,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefabs:
-  - {fileID: 8343906554610196527, guid: 5d275540c4402cb4e864b48fc19d7b0a, type: 3}
   - {fileID: 8343906554610196527, guid: 6d1bc5638a412ac4d96baf6b553369d5, type: 3}
+  - {fileID: 8343906554610196527, guid: 5d275540c4402cb4e864b48fc19d7b0a, type: 3}
   initialWaveStrength: 7
   waveStrengthScaling: 2
   spawnTranform: {fileID: 222229863}
@@ -2272,17 +2272,17 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0.5
       value: 2.75
-      inSlope: -5
-      outSlope: -5
+      inSlope: -3.25
+      outSlope: -3.25
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
-      value: -5
-      inSlope: -15.5
-      outSlope: -15.5
+      value: -3.25
+      inSlope: -12
+      outSlope: -12
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -2305,17 +2305,17 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0.5
       value: 2.75
-      inSlope: 13
-      outSlope: 13
+      inSlope: 14
+      outSlope: 14
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
-      value: 13
-      inSlope: 20.5
-      outSlope: 20.5
+      value: 14
+      inSlope: 22.5
+      outSlope: 22.5
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -2330,15 +2330,15 @@ MonoBehaviour:
     - serializedVersion: 3
       time: -0.0041656494
       value: 40
-      inSlope: -19.917032
-      outSlope: -19.917032
+      inSlope: -24.896292
+      outSlope: -24.896292
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
-      value: 20
+      value: 15
       inSlope: -13.069812
       outSlope: -24.896292
       tangentMode: 1

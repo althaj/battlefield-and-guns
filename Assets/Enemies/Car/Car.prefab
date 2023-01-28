@@ -48,6 +48,7 @@ GameObject:
   - component: {fileID: 8343906554610196516}
   - component: {fileID: 8343906554610196520}
   - component: {fileID: 8410512082839135834}
+  - component: {fileID: 3482445677945396768}
   m_Layer: 0
   m_Name: Car
   m_TagString: Untagged
@@ -104,6 +105,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86dccb63a0886164fb40092600387fe4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!205 &3482445677945396768
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8343906554610196527}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0.000000007450581, y: 0.05381894, z: 0.011261821}
+  m_Size: 0.20204073
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.23718135
+    fadeTransitionWidth: 0.123
+    renderers:
+    - renderer: {fileID: 4151299841555545154}
+  - screenRelativeHeight: 0.0077051586
+    fadeTransitionWidth: 0.118
+    renderers:
+    - renderer: {fileID: 3167081261230606766}
+  m_Enabled: 1
 --- !u!1 &8343906554618020744
 GameObject:
   m_ObjectHideFlags: 0
@@ -517,6 +541,16 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5af2f3dbcc3c3624ea929a237c406551, type: 3}
+--- !u!137 &3167081261230606766 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -4270497266538613030, guid: 5af2f3dbcc3c3624ea929a237c406551, type: 3}
+  m_PrefabInstance: {fileID: 8020804267541675892}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &4151299841555545154 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -2966746485790637258, guid: 5af2f3dbcc3c3624ea929a237c406551, type: 3}
+  m_PrefabInstance: {fileID: 8020804267541675892}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7549483786526742687 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5af2f3dbcc3c3624ea929a237c406551, type: 3}

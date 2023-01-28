@@ -31,8 +31,7 @@ namespace PSG.BattlefieldAndGuns.Managers
         #endregion
 
         #region private variables
-        // TODO currentWave = 0
-        private int currentWave = 7;
+        private int currentWave = 0;
         private int currentWaveStrength;
         private List<Enemy> spawnedEnemies;
         private float currentTimeBeforeNextWave = 0;
@@ -144,7 +143,7 @@ namespace PSG.BattlefieldAndGuns.Managers
                 remainingStrength -= selectedEnemy.Strength;
 
                 if (spawnedEnemies.Count % 25 == 0)
-                    yield return new WaitForSeconds(7);
+                    yield return new WaitForSeconds(6);
             }
         }
 
