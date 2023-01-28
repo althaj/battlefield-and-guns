@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Reflection;
 using UnityEngine;
 
 namespace PSG.BattlefieldAndGuns.Utility
@@ -29,13 +31,30 @@ namespace PSG.BattlefieldAndGuns.Utility
         }
 
         /// <summary>
-        /// Return the size of a UI panel.
+        /// Returns the size of a UI panel.
         /// </summary>
         /// <param name="panel"></param>
         /// <returns></returns>
         public static Vector2 GetPanelSize(RectTransform panel)
         {
             return new Vector2(panel.rect.width, panel.rect.height);
+        }
+
+        /// <summary>
+        /// Returns the Description of an object using the Description attribute.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static string GetDescription<T>(this T source)
+        {
+            FieldInfo fi = source.GetType().GetField(source.ToString());
+
+            DescriptionAttribute[] attributes = (DescriptionAttribute[])fi.GetCustomAttributes(
+                typeof(DescriptionAttribute), false);
+
+            if (attributes != null && attributes.Length > 0) return attributes[0].Description;
+            else return source.ToString();
         }
     }
 }

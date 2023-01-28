@@ -4,6 +4,7 @@ using PSG.BattlefieldAndGuns.Utility;
 using PSG.RNG;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using UnityEngine;
 
@@ -13,7 +14,9 @@ namespace PSG.BattlefieldAndGuns.Managers
     {
         public enum WaveType
         {
+            [Description("Randomized enemy units")]
             Random = 0,
+            [Description("Heavy enemy units")]
             Strong = 1
         }
 
@@ -114,6 +117,8 @@ namespace PSG.BattlefieldAndGuns.Managers
             int remainingStrength = (int)(currentWaveStrength * waveStrengthMultiplier);
 
             WaveType waveType = RNGManager.Manager[Constants.ENEMY_MANAGER_RNG_TITLE].NextEnumValue<WaveType>();
+
+            gameUI.ShowMessage($"Wave {currentWave}", waveType.GetDescription(), MessageDisplayDuration.Short);
 
             switch (waveType)
             {
