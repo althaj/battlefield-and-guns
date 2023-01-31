@@ -35,6 +35,8 @@ namespace PSG.BattlefieldAndGuns.UI
         private Vector3 anchorWorldPosition;
         private bool isInitialized = false;
 
+        public bool IsShown => gameObject.activeSelf;
+
         private bool CanBuild
         {
             get

@@ -53,6 +53,8 @@ namespace PSG.BattlefieldAndGuns.UI
             {
                 healthBar.maxValue = enemy.MaxHealth;
                 enemy.OnHealthChanged += Enemy_OnHealthChanged;
+
+                Enemy_OnHealthChanged(enemy, enemy.CurrentHealth);
             }
         }
 
@@ -65,8 +67,8 @@ namespace PSG.BattlefieldAndGuns.UI
         private void Enemy_OnHealthChanged(object sender, int e)
         {
             // First hit
-            if (enemy != null && e == enemy.MaxHealth)
-                healthBar.gameObject.SetActive(true);
+            if (enemy != null)
+                healthBar.gameObject.SetActive(e != enemy.MaxHealth);
 
             healthBar.value = e;
         }

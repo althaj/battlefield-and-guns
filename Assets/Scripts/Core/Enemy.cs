@@ -47,6 +47,8 @@ namespace PSG.BattlefieldAndGuns.Core
             }
         }
 
+        public int CurrentHealth { get => health; }
+
         #endregion
 
         #region Serialized fields

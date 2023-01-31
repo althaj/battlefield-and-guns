@@ -158,8 +158,11 @@ namespace PSG.BattlefieldAndGuns.UI
 
         public void ShowUpgradePanel(Tower tower, TowerData towerData)
         {
-            upgradePopup.Show(tower, towerData);
-            backgroundPanel.SetActive(true);
+            if (!upgradePopup.IsShown)
+            {
+                upgradePopup.Show(tower, towerData);
+                backgroundPanel.SetActive(true);
+            }
         }
 
         public void HideUpgradePanel()
@@ -198,8 +201,11 @@ namespace PSG.BattlefieldAndGuns.UI
 
         public void ShowBuildPopup(TowerSpace towerSpace)
         {
-            buildPopup.Show(towerSpace);
-            backgroundPanel.SetActive(true);
+            if (!buildPopup.IsShown)
+            {
+                buildPopup.Show(towerSpace);
+                backgroundPanel.SetActive(true);
+            }
         }
 
         public void HideBuildPopup()

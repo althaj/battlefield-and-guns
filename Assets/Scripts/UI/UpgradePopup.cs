@@ -42,6 +42,8 @@ namespace PSG.BattlefieldAndGuns.UI
 
         bool isInitialized = false;
 
+        public bool IsShown => gameObject.activeSelf;
+
         #endregion
 
         #region properties
