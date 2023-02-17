@@ -17,7 +17,7 @@ MonoBehaviour:
   CostScaling: 2.5
   InitialBuildTime: 4
   BuildTimeScaling: 2
-  InitialFireRate: 0.3
+  InitialFireRate: 0.4
   FireRateScaling: 0.9
   InitialDamage: 1
   DamageScaling: 1.2

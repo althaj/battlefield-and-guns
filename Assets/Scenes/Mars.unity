@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -500,6 +500,7 @@ MonoBehaviour:
   enemyPrefabs:
   - {fileID: 8343906554610196527, guid: 6d1bc5638a412ac4d96baf6b553369d5, type: 3}
   - {fileID: 8343906554610196527, guid: 5d275540c4402cb4e864b48fc19d7b0a, type: 3}
+  - {fileID: 8343906554610196527, guid: bc6e44d1567f14a4ca8dbb7228502ff8, type: 3}
   initialWaveStrength: 7
   waveStrengthScaling: 2
   spawnTranform: {fileID: 222229863}
@@ -2354,8 +2355,8 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 50
+  near clip plane: 5
+  far clip plane: 30
   field of view: 40
   orthographic: 0
   orthographic size: 10

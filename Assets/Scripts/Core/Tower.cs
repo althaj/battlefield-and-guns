@@ -94,6 +94,18 @@ namespace PSG.BattlefieldAndGuns.Core
             {
                 Weapons[i].enabled = true;
             }
+            
+            // We need to manually recalculate the bounds of the skinned mesh (Unity restriction),
+            // as the mesh is moved by animation, but the transform stays in place.
+            // We only need to do this once the building is complete.
+            foreach (var renderer in GetComponentsInChildren<SkinnedMeshRenderer>())
+            {
+                renderer.localBounds = new Bounds
+                {
+                    center = -Vector3.forward / renderer.transform.localScale.x / 4,
+                    extents = Vector3.one / renderer.transform.localScale.x / 4
+                };
+            }
         }
 
     }

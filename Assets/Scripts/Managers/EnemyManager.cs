@@ -120,6 +120,8 @@ namespace PSG.BattlefieldAndGuns.Managers
 
             gameUI.ShowMessage($"Wave {currentWave}", waveType.GetDescription(), MessageDisplayDuration.Short);
 
+            waveType = WaveType.Strong;
+
             switch (waveType)
             {
                 case WaveType.Random:
@@ -132,8 +134,6 @@ namespace PSG.BattlefieldAndGuns.Managers
                     enemyComponents = enemyPrefabs.ToDictionary(x => x.GetComponent<Enemy>());
                     break;
             }
-
-            int spawnedUnits = 0;
 
             while (remainingStrength > 0)
             {
