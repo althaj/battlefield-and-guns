@@ -8,10 +8,10 @@ showPackageIndexes = false
 showStatusBar = false
 scopes = {
 	"picker_window_position_offset.74AD8FDB" = "277;321;320;550"
-	"picker_search_text.74AD8FDB" = ""
-	"last_search.74AD8FDB" = ""
+	"picker_search_text.74AD8FDB" = "parti"
+	"last_search.74AD8FDB" = "parti"
 	"OpenInspectorPreview.74AD8FDB" = "0"
-	"currentGroup.74AD8FDB" = "_group_provider_Texture 2D"
+	"currentGroup.74AD8FDB" = "all"
 }
 providers = {
 	adb = {

@@ -1,0 +1,17 @@
+using PSG.BattlefieldAndGuns.Core;
+
+namespace PSG.BattlefieldAndGuns.EnemyDebuffs
+{
+    public class MinorSlowEnemyDebuff : EnemyDebuff
+    {
+        public override void Register(Enemy enemy)
+        {
+            enemy.MultiplySpeed(0.5f);
+        }
+
+        public override void Unregister(Enemy enemy)
+        {
+            enemy.MultiplySpeed(null);
+        }
+    }
+}

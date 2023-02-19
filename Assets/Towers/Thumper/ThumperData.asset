@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b7287b82ba71108438f41b0b2dc8c101, type: 3}
-  m_Name: RocketCenter
+  m_Name: ThumperData
   m_EditorClassIdentifier: 
-  Title: Rocket Center
+  Title: Thumper
   InitialCost: 25
-  CostScaling: 2.5
+  CostScaling: 2
   InitialBuildTime: 3
-  BuildTimeScaling: 2
-  InitialFireRate: 1.5
+  BuildTimeScaling: 1.4
+  InitialFireRate: 5
   FireRateScaling: 0.9
-  InitialDamage: 4
-  DamageScaling: 1.4
-  InitialRange: 7
-  RangeScaling: 1.5
+  InitialDamage: 0
+  DamageScaling: 0
+  InitialRange: 4
+  RangeScaling: 1.3

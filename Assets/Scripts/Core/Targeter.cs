@@ -1,3 +1,4 @@
+using PSG.BattlefieldAndGuns.Managers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,9 +24,11 @@ namespace PSG.BattlefieldAndGuns.Core
         public abstract Enemy Target { get; }
         #endregion
 
-        private void Awake()
+        internal EnemyManager enemyManager;
+
+        private void Start()
         {
-            
+            enemyManager = FindObjectOfType<EnemyManager>();
         }
 
         /// <summary>

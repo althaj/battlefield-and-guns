@@ -6,6 +6,7 @@ using UnityEngine.AI;
 using PSG.BattlefieldAndGuns.Managers;
 using PSG.RNG;
 using PSG.BattlefieldAndGuns.Utility;
+using PSG.BattlefieldAndGuns.EnemyDebuffs;
 
 namespace PSG.BattlefieldAndGuns.Core
 {
@@ -74,9 +75,10 @@ namespace PSG.BattlefieldAndGuns.Core
         private int health;
 
         private int currentPathIndex;
-        private NavMeshHit hit;
 
         private Vector3? nextPoint;
+
+        private Dictionary<Type, EnemyDebuff> debuffs;
         #endregion
 
         #region Events
@@ -99,12 +101,15 @@ namespace PSG.BattlefieldAndGuns.Core
             OnHealthChanged?.Invoke(this, health);
 
             StartCoroutine(UpdatePath());
+
+            debuffs = new Dictionary<Type, EnemyDebuff>();
         }
 
         private void Update()
         {
             Quaternion lookOnAngle = Quaternion.LookRotation(Path[currentPathIndex] - transform.position);
             transform.rotation = Quaternion.Slerp(transform.rotation, lookOnAngle, angularSpeed * Time.deltaTime);
+            TickDebuffs();
         }
 
         private IEnumerator UpdatePath()
@@ -184,6 +189,49 @@ namespace PSG.BattlefieldAndGuns.Core
                 Gizmos.DrawSphere(nextPoint.Value, 0.1f);
             }
         }
+
+        #region Debuffs
+
+        public void RegisterDebuff(EnemyDebuff debuff, float duration)
+        {
+            Type debuffType = debuff.GetType();
+
+            if (!debuffs.ContainsKey(debuffType))
+            {
+                debuffs.Add(debuffType, debuff);
+                debuff.Register(this);
+            }
+
+            debuffs[debuffType].DurationLeft = duration;
+        }
+
+        private void TickDebuffs()
+        {
+            List<Type> endedDebuffs = new List<Type>();
+
+            foreach (EnemyDebuff debuff in debuffs.Values)
+            {
+                if (debuff.Tick(Time.deltaTime))
+                {
+                    debuff.Unregister(this);
+                    endedDebuffs.Add(debuff.GetType());
+                }
+            }
+
+            foreach (Type endedDebuff in endedDebuffs)
+                debuffs.Remove(endedDebuff);
+        }
+
+        /// <summary>
+        /// Multiplies the speed of the enemy.
+        /// </summary>
+        /// <param name="speedMultiplier">Multiplier of enemy speed, null if you wish to reset the enemy speed to default.</param>
+        public void MultiplySpeed(float? speedMultiplier)
+        {
+            navMeshAgent.speed = speedMultiplier.HasValue ? speed * speedMultiplier.Value : speed; 
+        }
+
+        #endregion
     }
 
 }
