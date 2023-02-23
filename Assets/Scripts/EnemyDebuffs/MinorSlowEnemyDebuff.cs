@@ -6,6 +6,9 @@ namespace PSG.BattlefieldAndGuns.EnemyDebuffs
     {
         public override void Register(Enemy enemy)
         {
+            if (enemy.IsTracked)
+                return;
+
             enemy.MultiplySpeed(0.5f);
         }
 

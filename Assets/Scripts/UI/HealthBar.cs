@@ -1,23 +1,22 @@
 using PSG.BattlefieldAndGuns.Core;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using PSG.BattlefieldAndGuns.Utility;
 using UnityEngine.UI;
-using System;
 
 namespace PSG.BattlefieldAndGuns.UI
 {
     public class HealthBar : MonoBehaviour
     {
         #region serialized variables
-
+        [SerializeField] private GameObject healthBarCanvasPrefab;
         #endregion
 
         #region private variables
         private Slider healthBar;
         private Enemy enemy;
         private Transform cameraTransform;
+
+        private Transform canvas;
+        private Transform iconPanel;
         #endregion
 
         #region properties
@@ -31,18 +30,22 @@ namespace PSG.BattlefieldAndGuns.UI
 
         private void LateUpdate()
         {
-            if(healthBar != null)
-                healthBar.transform.rotation = cameraTransform.rotation;
+            if(canvas != null)
+                canvas.rotation = cameraTransform.rotation;
         }
 
         private void OnEnable()
         {
             enemy = this.GetComponent<Enemy>();
-            healthBar = GetComponentInChildren<Slider>();
 
-            if (healthBar == null)
+            if(healthBar == null)
             {
-                healthBar = gameObject.AddComponent<Slider>();
+                canvas = Instantiate(healthBarCanvasPrefab, transform).transform;
+                healthBar = canvas.GetComponentInChildren<Slider>();
+                iconPanel = canvas.GetChild(0);
+
+                if(enemy.IsTracked)
+                    iconPanel.GetChild(0).gameObject.SetActive(true);
             }
 
             if (enemy == null)

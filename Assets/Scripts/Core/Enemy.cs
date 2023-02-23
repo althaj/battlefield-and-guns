@@ -50,6 +50,8 @@ namespace PSG.BattlefieldAndGuns.Core
 
         public int CurrentHealth { get => health; }
 
+        public bool IsTracked { get => isTracked; }
+
         #endregion
 
         #region Serialized fields
@@ -68,6 +70,8 @@ namespace PSG.BattlefieldAndGuns.Core
         [SerializeField]
         private int damage = 1;
 
+        [SerializeField] private bool isTracked = false;
+
         [SerializeField] private ExplosionType explosionType;
         #endregion
 
@@ -75,8 +79,6 @@ namespace PSG.BattlefieldAndGuns.Core
         private int health;
 
         private int currentPathIndex;
-
-        private Vector3? nextPoint;
 
         private Dictionary<Type, EnemyDebuff> debuffs;
         #endregion
@@ -177,17 +179,6 @@ namespace PSG.BattlefieldAndGuns.Core
             speed = Mathf.Max(speed * speedMultiplier, 0.1f);
             // Reward cannot be negative
             reward = (int)Mathf.Max(reward * rewardMultiplier, 0);
-        }
-
-        void OnDrawGizmos()
-        {
-            // Draw a yellow sphere at the transform's position
-            Gizmos.color = Color.yellow;
-            if (nextPoint.HasValue)
-            {
-                Gizmos.DrawLine(transform.position, nextPoint.Value);
-                Gizmos.DrawSphere(nextPoint.Value, 0.1f);
-            }
         }
 
         #region Debuffs
