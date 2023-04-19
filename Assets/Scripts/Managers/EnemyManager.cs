@@ -17,7 +17,9 @@ namespace PSG.BattlefieldAndGuns.Managers
             [Description("Randomized enemy units")]
             Random = 0,
             [Description("Heavy enemy units")]
-            Strong = 1
+            Strong = 1,
+            [Description("Fast units")]
+            Fast = 2
         }
 
         #region serialized variables
@@ -128,23 +130,40 @@ namespace PSG.BattlefieldAndGuns.Managers
                     break;
                 case WaveType.Strong:
                     enemyPrefabs = enemyPrefabs.OrderByDescending(x => x.GetComponent<Enemy>().Strength).ToArray();
-                    enemyComponents = enemyPrefabs.ToDictionary(x => x.GetComponent<Enemy>());
+                    break;
+                case WaveType.Fast:
+                    enemyPrefabs = enemyPrefabs.OrderByDescending(x => x.GetComponent<Enemy>().Speed).ToArray();
                     break;
                 default:
-                    enemyComponents = enemyPrefabs.ToDictionary(x => x.GetComponent<Enemy>());
                     break;
             }
+            enemyComponents = enemyPrefabs.ToDictionary(x => x.GetComponent<Enemy>());
+
+            Enemy selectedEnemy;
 
             while (remainingStrength > 0)
             {
-                if(waveType == WaveType.Random)
+                var availibleEnemies = enemyComponents.Where(x => x.Key.Strength <= remainingStrength);
+
+                // If wave is random, or the wave is normal and there is a 10% chance of getting a random unit.
+                if (waveType == WaveType.Random || RNGManager.Manager[Constants.ENEMY_MANAGER_RNG_TITLE].NextBool(0.1f))
                 {
-                    enemyComponents = enemyPrefabs.OrderBy(x => RNGManager.Manager[Constants.ENEMY_MANAGER_RNG_TITLE].NextFloat()).ToDictionary(x => x.GetComponent<Enemy>());
+                    selectedEnemy = RNGManager.Manager[Constants.ENEMY_MANAGER_RNG_TITLE].NextElement(availibleEnemies).Key;
+                }
+                else
+                {
+                    // 20% chance to get one of top 3 instead of the first enemy
+                    if (availibleEnemies.Count() >= 3 && RNGManager.Manager[Constants.ENEMY_MANAGER_RNG_TITLE].NextBool(0.2f))
+                    {
+                        selectedEnemy = RNGManager.Manager[Constants.ENEMY_MANAGER_RNG_TITLE].NextElement(availibleEnemies.Take(3)).Key;
+                    }
+                    else
+                    {
+                        selectedEnemy = availibleEnemies.FirstOrDefault().Key;
+                    }
                 }
 
-                Enemy selectedEnemy = enemyComponents.Where(x => x.Key.Strength <= remainingStrength).FirstOrDefault().Key;
-                GameObject enemyPrefab = enemyComponents[selectedEnemy];
-                SpawnEnemy(enemyPrefab);
+                SpawnEnemy(enemyComponents[selectedEnemy]);
                 remainingStrength -= selectedEnemy.Strength;
 
                 if (spawnedEnemies.Count % 25 == 0)

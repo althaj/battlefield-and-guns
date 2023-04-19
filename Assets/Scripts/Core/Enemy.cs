@@ -15,6 +15,7 @@ namespace PSG.BattlefieldAndGuns.Core
         #region Properties
         public int MaxHealth { get => maxHealth; }
         public int Strength { get => strength; }
+        public float Speed {  get => speed; }
         public int Reward { get => reward; }
         public EnemyManager EnemyManager { get; set; }
 
